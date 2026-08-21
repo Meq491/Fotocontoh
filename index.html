@@ -16,7 +16,7 @@ body {
     min-height: 100vh;
     font-family: Arial, sans-serif;
     background:
-        radial-gradient(circle at top, #252525 0%, #0b0b0b 45%, #000 100%);
+        radial-gradient(circle at top, #292929 0%, #0b0b0b 45%, #000 100%);
     color: white;
 }
 
@@ -136,13 +136,9 @@ body {
 
 <div class="container">
 
-    <div class="logo">
-        MEQ
-    </div>
+    <div class="logo">MEQ</div>
 
-    <div class="subtitle">
-        Gallery
-    </div>
+    <div class="subtitle">Gallery</div>
 
     <div class="gallery-title">
         📸 Foto MEQ
@@ -156,25 +152,17 @@ body {
 
 </div>
 
-
-<!-- FOTO BESAR -->
+<!-- FOTO FULLSCREEN -->
 
 <div id="viewer">
 
-    <button id="closeViewer">
-        ×
-    </button>
+    <button id="closeViewer">×</button>
 
     <img id="viewerImage">
 
 </div>
 
-
 <script>
-
-/* ==========================================
-   SUPABASE
-   ========================================== */
 
 const SUPABASE_URL =
 "https://vngbbgmmernxgdjzyizs.supabase.co";
@@ -182,13 +170,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_WmqF6NVq_f8IOGycOYO_CA_FaLrbXeS";
 
-const BUCKET =
-"Foto";
-
-
-/* ==========================================
-   ELEMENT
-   ========================================== */
+const BUCKET = "Foto";
 
 const gallery =
 document.getElementById("gallery");
@@ -203,76 +185,47 @@ const closeViewer =
 document.getElementById("closeViewer");
 
 
-/* ==========================================
-   LOAD GALERI
-   ========================================== */
-
 async function loadGallery() {
 
     try {
 
-        const response =
-        await fetch(
-
+        const response = await fetch(
             SUPABASE_URL +
             "/storage/v1/object/list/" +
             BUCKET,
-
             {
                 method: "POST",
 
                 headers: {
-
-                    "apikey":
-                    SUPABASE_KEY,
-
+                    "apikey": SUPABASE_KEY,
                     "Authorization":
-                    "Bearer " +
-                    SUPABASE_KEY,
-
+                    "Bearer " + SUPABASE_KEY,
                     "Content-Type":
                     "application/json"
-
                 },
 
                 body: JSON.stringify({
-
                     limit: 100,
-
                     offset: 0,
 
                     sortBy: {
-
-                        column:
-                        "created_at",
-
-                        order:
-                        "desc"
-
+                        column: "created_at",
+                        order: "desc"
                     }
-
                 })
-
             }
-
         );
 
-
         if (!response.ok) {
-
             throw new Error(
                 "Gagal mengambil foto"
             );
-
         }
-
 
         const files =
         await response.json();
 
-
         gallery.innerHTML = "";
-
 
         if (!files.length) {
 
@@ -280,26 +233,18 @@ async function loadGallery() {
             '<div class="empty">Belum ada foto.</div>';
 
             return;
-
         }
-
 
         files.forEach(function(file) {
 
-            if (!file.name) {
-                return;
-            }
-
+            if (!file.name) return;
 
             const imageURL =
-            SUPABASE_URL +
-            "/storage/v1/object/public/" +
-            BUCKET +
-            "/" +
-            encodeURIComponent(
-                file.name
-            );
-
+                SUPABASE_URL +
+                "/storage/v1/object/public/" +
+                BUCKET +
+                "/" +
+                encodeURIComponent(file.name);
 
             const card =
             document.createElement("div");
@@ -307,26 +252,15 @@ async function loadGallery() {
             card.className =
             "photo-card";
 
-
             const img =
             document.createElement("img");
 
-            img.src =
-            imageURL;
-
-            img.alt =
-            "Foto MEQ";
-
-            img.loading =
-            "lazy";
-
+            img.src = imageURL;
+            img.alt = "Foto MEQ";
+            img.loading = "lazy";
 
             card.appendChild(img);
-
             gallery.appendChild(card);
-
-
-            /* KLIK FOTO */
 
             card.addEventListener(
                 "click",
@@ -340,12 +274,10 @@ async function loadGallery() {
 
                     document.body.style.overflow =
                     "hidden";
-
                 }
             );
 
         });
-
 
     }
 
@@ -355,27 +287,19 @@ async function loadGallery() {
 
         gallery.innerHTML =
         '<div class="empty">Galeri belum bisa dimuat.</div>';
-
     }
-
 }
 
-
-/* ==========================================
-   TUTUP FOTO
-   ========================================== */
 
 function closeImage() {
 
     viewer.style.display =
     "none";
 
-    viewerImage.src =
-    "";
+    viewerImage.src = "";
 
     document.body.style.overflow =
     "";
-
 }
 
 
@@ -385,45 +309,29 @@ closeViewer.addEventListener(
 );
 
 
-/* Klik background untuk menutup */
-
 viewer.addEventListener(
     "click",
     function(event) {
 
-        if (
-            event.target === viewer
-        ) {
-
+        if (event.target === viewer) {
             closeImage();
-
         }
 
     }
 );
 
-
-/* Tombol ESC */
 
 document.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            event.key === "Escape"
-        ) {
-
+        if (event.key === "Escape") {
             closeImage();
-
         }
 
     }
 );
 
-
-/* ==========================================
-   JALANKAN
-   ========================================== */
 
 loadGallery();
 
