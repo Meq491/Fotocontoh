@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MEQ491 - Upload Foto</title>
+<title>MEQ491 - Foto</title>
 
 <style>
 * {
@@ -26,22 +26,24 @@ body {
     padding: 35px 0;
 }
 
-h1 {
+.logo {
     text-align: center;
-    font-size: 38px;
-    margin: 0;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 3px;
 }
 
-p {
+.subtitle {
     text-align: center;
     color: #aaa;
+    margin-top: 5px;
 }
 
 .upload-box {
     margin-top: 30px;
     padding: 25px;
-    border-radius: 20px;
     background: #151515;
+    border-radius: 20px;
     text-align: center;
 }
 
@@ -49,7 +51,7 @@ input {
     display: none;
 }
 
-label {
+.upload-button {
     display: inline-block;
     padding: 14px 25px;
     background: white;
@@ -59,9 +61,9 @@ label {
     cursor: pointer;
 }
 
-#foto {
+#preview {
     width: 100%;
-    margin-top: 25px;
+    margin-top: 20px;
     border-radius: 15px;
     display: none;
 }
@@ -70,6 +72,17 @@ label {
     margin-top: 15px;
     color: #aaa;
 }
+
+.hapus {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #d00000;
+    color: white;
+    font-weight: bold;
+    display: none;
+}
 </style>
 </head>
 
@@ -77,27 +90,33 @@ label {
 
 <div class="container">
 
-    <h1>MEQ491</h1>
+    <div class="logo">MEQ491</div>
 
-    <p>Upload Foto</p>
+    <div class="subtitle">
+        Penyimpanan Foto
+    </div>
 
     <div class="upload-box">
 
-        <label for="pilihFoto">
+        <label for="fileInput" class="upload-button">
             📷 Pilih Foto
         </label>
 
         <input
             type="file"
-            id="pilihFoto"
+            id="fileInput"
             accept="image/*"
         >
 
-        <img id="foto">
+        <img id="preview">
 
-        <div class="status" id="status">
-            Belum ada foto dipilih
+        <div id="status" class="status">
+            Memuat foto...
         </div>
+
+        <button id="hapus" class="hapus">
+            🗑 Hapus Foto
+        </button>
 
     </div>
 
@@ -105,11 +124,33 @@ label {
 
 <script>
 
-const input = document.getElementById("pilihFoto");
-const foto = document.getElementById("foto");
+const fileInput = document.getElementById("fileInput");
+const preview = document.getElementById("preview");
 const status = document.getElementById("status");
+const hapus = document.getElementById("hapus");
 
-input.addEventListener("change", function() {
+
+// MEMUAT FOTO YANG TERSIMPAN
+const fotoTersimpan = localStorage.getItem("fotoMEQ491");
+
+if (fotoTersimpan) {
+
+    preview.src = fotoTersimpan;
+    preview.style.display = "block";
+
+    status.textContent = "✅ Foto tersimpan";
+
+    hapus.style.display = "inline-block";
+
+} else {
+
+    status.textContent = "Belum ada foto";
+
+}
+
+
+// PILIH FOTO
+fileInput.addEventListener("change", function() {
 
     const file = this.files[0];
 
@@ -117,19 +158,57 @@ input.addEventListener("change", function() {
         return;
     }
 
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-
-        foto.src = e.target.result;
-        foto.style.display = "block";
+    if (!file.type.startsWith("image/")) {
 
         status.textContent =
-            "✅ Foto berhasil ditampilkan";
+            "File harus berupa foto.";
+
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const foto = event.target.result;
+
+        // SIMPAN FOTO
+        localStorage.setItem(
+            "fotoMEQ491",
+            foto
+        );
+
+        // TAMPILKAN FOTO
+        preview.src = foto;
+
+        preview.style.display = "block";
+
+        status.textContent =
+            "✅ Foto berhasil disimpan";
+
+        hapus.style.display =
+            "inline-block";
 
     };
 
     reader.readAsDataURL(file);
+
+});
+
+
+// HAPUS FOTO
+hapus.addEventListener("click", function() {
+
+    localStorage.removeItem("fotoMEQ491");
+
+    preview.src = "";
+
+    preview.style.display = "none";
+
+    hapus.style.display = "none";
+
+    status.textContent =
+        "Foto sudah dihapus";
 
 });
 
