@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MEQ - Galeri</title>
+<title>MEQ - Gallery</title>
 
 <style>
 * {
@@ -16,7 +16,7 @@ body {
     min-height: 100vh;
     font-family: Arial, sans-serif;
     background:
-        radial-gradient(circle at top, #202020 0%, #080808 45%, #000 100%);
+        radial-gradient(circle at top, #252525 0%, #0b0b0b 45%, #000 100%);
     color: white;
 }
 
@@ -29,19 +29,19 @@ body {
 
 .logo {
     text-align: center;
-    font-size: 52px;
+    font-size: 58px;
     font-weight: 900;
-    letter-spacing: 8px;
-    margin-top: 10px;
-    text-shadow: 0 0 25px rgba(255,255,255,0.25);
+    letter-spacing: 9px;
+    margin-top: 5px;
+    text-shadow: 0 0 30px rgba(255,255,255,0.25);
 }
 
 .subtitle {
     text-align: center;
     color: #888;
-    font-size: 14px;
-    letter-spacing: 3px;
     margin-top: 8px;
+    font-size: 13px;
+    letter-spacing: 4px;
     text-transform: uppercase;
 }
 
@@ -63,9 +63,9 @@ body {
     overflow: hidden;
     border-radius: 18px;
     background: #151515;
-    cursor: pointer;
     aspect-ratio: 1 / 1;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
 }
 
 .photo-card img {
@@ -73,19 +73,28 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.35s ease;
+    transition: transform 0.3s ease;
 }
 
-.photo-card:active img {
-    transform: scale(0.96);
+.photo-card:hover img {
+    transform: scale(1.05);
 }
 
-/* FULLSCREEN FOTO */
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 20px;
+    background: #111;
+    border-radius: 18px;
+    color: #777;
+}
+
+/* FOTO BESAR */
 
 #viewer {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.96);
+    background: rgba(0,0,0,0.97);
     display: none;
     align-items: center;
     justify-content: center;
@@ -93,7 +102,7 @@ body {
     padding: 20px;
 }
 
-#viewer img {
+#viewerImage {
     max-width: 100%;
     max-height: 90vh;
     object-fit: contain;
@@ -103,31 +112,16 @@ body {
 #closeViewer {
     position: absolute;
     top: 18px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
+    right: 18px;
+    width: 46px;
+    height: 46px;
     border: none;
     border-radius: 50%;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.15);
     color: white;
-    font-size: 28px;
+    font-size: 30px;
+    line-height: 46px;
     cursor: pointer;
-}
-
-.empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 50px 20px;
-    color: #777;
-    background: #111;
-    border-radius: 18px;
-}
-
-.loading {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: #777;
-    padding: 40px;
 }
 
 @media (min-width: 600px) {
@@ -155,7 +149,7 @@ body {
     </div>
 
     <div id="gallery" class="gallery">
-        <div class="loading">
+        <div class="empty">
             Memuat foto...
         </div>
     </div>
@@ -163,7 +157,7 @@ body {
 </div>
 
 
-<!-- VIEWER FOTO BESAR -->
+<!-- FOTO BESAR -->
 
 <div id="viewer">
 
@@ -210,7 +204,7 @@ document.getElementById("closeViewer");
 
 
 /* ==========================================
-   GALERI
+   LOAD GALERI
    ========================================== */
 
 async function loadGallery() {
@@ -225,7 +219,6 @@ async function loadGallery() {
             BUCKET,
 
             {
-
                 method: "POST",
 
                 headers: {
@@ -266,11 +259,6 @@ async function loadGallery() {
 
 
         if (!response.ok) {
-
-            const error =
-            await response.text();
-
-            console.log(error);
 
             throw new Error(
                 "Gagal mengambil foto"
@@ -326,12 +314,11 @@ async function loadGallery() {
             img.src =
             imageURL;
 
-            img.loading =
-            "lazy";
-
-
             img.alt =
             "Foto MEQ";
+
+            img.loading =
+            "lazy";
 
 
             card.appendChild(img);
@@ -367,7 +354,7 @@ async function loadGallery() {
         console.error(error);
 
         gallery.innerHTML =
-        '<div class="empty">Foto belum bisa dimuat.</div>';
+        '<div class="empty">Galeri belum bisa dimuat.</div>';
 
     }
 
@@ -375,7 +362,7 @@ async function loadGallery() {
 
 
 /* ==========================================
-   TUTUP FOTO BESAR
+   TUTUP FOTO
    ========================================== */
 
 function closeImage() {
@@ -398,7 +385,7 @@ closeViewer.addEventListener(
 );
 
 
-/* Klik area gelap untuk menutup */
+/* Klik background untuk menutup */
 
 viewer.addEventListener(
     "click",
@@ -416,7 +403,7 @@ viewer.addEventListener(
 );
 
 
-/* Tombol kembali HP / ESC */
+/* Tombol ESC */
 
 document.addEventListener(
     "keydown",
