@@ -12,12 +12,14 @@
 
 body {
   margin: 0;
-  background: #080808;
-  color: white;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #292929 0%, #090909 45%, #000 100%);
+  color: #fff;
   font-family: Arial, sans-serif;
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
 #loginPage {
   min-height: 100vh;
@@ -29,72 +31,117 @@ body {
 
 .loginBox {
   width: 100%;
-  max-width: 360px;
-  background: #111;
-  padding: 25px;
-  border-radius: 20px;
+  max-width: 370px;
+  padding: 28px 24px;
+  background: rgba(17,17,17,.95);
   border: 1px solid #292929;
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.65);
 }
 
-.loginBox h1 {
+.loginTitle {
   text-align: center;
-  font-size: 22px;
-  letter-spacing: 5px;
-  margin-bottom: 25px;
+  font-size: 23px;
+  letter-spacing: 6px;
+  margin-bottom: 28px;
 }
 
 .loginBox input {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   margin-bottom: 12px;
+  border: 1px solid #333;
+  border-radius: 11px;
   background: #050505;
   color: white;
-  border: 1px solid #333;
-  border-radius: 10px;
   outline: none;
+  font-size: 15px;
 }
 
-.loginBox button {
+.loginButton {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 11px;
+  background: #f5f5f5;
+  color: #000;
   font-weight: bold;
-  cursor: pointer;
+  letter-spacing: 2px;
 }
 
 #loginStatus {
   text-align: center;
   color: #888;
-  margin-top: 10px;
   font-size: 13px;
+  margin-top: 12px;
 }
 
 
-/* GALERI */
+/* ================= GALERI ================= */
 
 #galleryPage {
   display: none;
   width: 92%;
   max-width: 650px;
   margin: auto;
-  padding: 30px 0 60px;
+  padding: 32px 0 60px;
 }
 
-.logoText {
+.mlTitle {
   text-align: center;
   font-size: 55px;
   font-weight: 900;
   letter-spacing: 8px;
+  text-shadow: 0 0 30px rgba(255,255,255,.18);
 }
 
-.subText {
+.privateText {
   text-align: center;
   color: #777;
   font-size: 10px;
   letter-spacing: 5px;
-  margin-bottom: 30px;
+  margin-top: 4px;
 }
+
+
+/* NAMA GALERI */
+
+.galleryName {
+  text-align: center;
+  margin: 22px 0 25px;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.galleryNameEdit {
+  display: none;
+  margin-top: 10px;
+}
+
+.galleryNameEdit input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #050505;
+  color: white;
+  outline: none;
+}
+
+.galleryNameEdit button {
+  margin-top: 8px;
+  width: 100%;
+  padding: 11px;
+  border: 0;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  font-weight: bold;
+}
+
+
+/* TOP BAR */
 
 .topBar {
   display: flex;
@@ -103,53 +150,49 @@ body {
   margin-bottom: 18px;
 }
 
-.galleryName {
-  font-size: 21px;
-  font-weight: bold;
+.galleryLabel {
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.logoutBtn {
+.logoutButton {
+  padding: 9px 13px;
+  border-radius: 10px;
+  border: 1px solid #333;
   background: #111;
   color: #aaa;
-  border: 1px solid #333;
-  padding: 9px 12px;
-  border-radius: 9px;
 }
 
 
-/* ADMIN */
+/* ================= ADMIN ================= */
 
 #adminPanel {
   display: none;
   background: #111;
   border: 1px solid #292929;
-  padding: 15px;
   border-radius: 17px;
-  margin-bottom: 20px;
+  padding: 16px;
+  margin-bottom: 22px;
 }
 
-.adminTitle {
+.adminLabel {
   color: #aaa;
   font-size: 13px;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
 }
 
-#titleInput,
 #descriptionInput {
   width: 100%;
-  background: #050505;
-  color: white;
-  border: 1px solid #333;
-  border-radius: 10px;
+  min-height: 80px;
   padding: 13px;
   margin-bottom: 10px;
+  border-radius: 11px;
+  border: 1px solid #333;
+  background: #050505;
+  color: white;
   outline: none;
-  font-family: Arial, sans-serif;
-}
-
-#descriptionInput {
-  min-height: 80px;
   resize: vertical;
+  font-family: Arial, sans-serif;
 }
 
 .fileLabel {
@@ -157,24 +200,31 @@ body {
   text-align: center;
   padding: 13px;
   border: 1px dashed #444;
-  border-radius: 10px;
+  border-radius: 11px;
   color: #aaa;
   margin-bottom: 10px;
-  cursor: pointer;
 }
 
 #fileInput {
   display: none;
 }
 
-#uploadBtn {
+.uploadButton,
+.editNameButton {
   width: 100%;
   padding: 13px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 11px;
   background: white;
   color: black;
   font-weight: bold;
+}
+
+.editNameButton {
+  margin-top: 10px;
+  background: #222;
+  color: white;
+  border: 1px solid #333;
 }
 
 #uploadStatus {
@@ -185,58 +235,56 @@ body {
 }
 
 
-/* FOTO */
+/* ================= FOTO ================= */
 
 .gallery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 13px;
+  gap: 14px;
 }
 
 .photoItem {
   min-width: 0;
 }
 
-.photoImageBox {
+.photoBox {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 15px;
   background: #111;
+  border-radius: 16px;
+  overflow: hidden;
   cursor: pointer;
 }
 
-.photoImageBox img {
+.photoBox img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform .3s;
+}
+
+.photoBox:hover img {
+  transform: scale(1.04);
 }
 
 
-/* JUDUL */
-
-.photoTitle {
-  font-size: 17px;
-  font-weight: 800;
-  margin-top: 9px;
-  line-height: 1.25;
-}
-
-
-/* KETERANGAN */
+/* DESKRIPSI */
 
 .photoDescription {
-  font-size: 12px;
-  color: #999;
-  margin-top: 5px;
-  line-height: 1.45;
+  margin-top: 9px;
+  padding: 0 3px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #eee;
 }
 
 
-/* TITIK 3 */
+/* MENU TITIK 3 */
 
-.moreBtn {
+.moreButton {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -250,26 +298,26 @@ body {
   z-index: 5;
 }
 
-
-/* MENU */
-
 .photoMenu {
   position: absolute;
   top: 48px;
   right: 8px;
-  background: #191919;
-  border: 1px solid #333;
-  border-radius: 10px;
   display: none;
+  min-width: 110px;
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 11px;
   overflow: hidden;
-  z-index: 10;
+  z-index: 20;
 }
 
 .photoMenu button {
+  width: 100%;
+  padding: 12px 15px;
+  border: 0;
   background: transparent;
   color: white;
-  border: 0;
-  padding: 12px 15px;
+  text-align: left;
 }
 
 
@@ -278,59 +326,63 @@ body {
 .empty {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 50px 10px;
+  padding: 45px 10px;
   color: #666;
 }
 
 
-/* FOTO BESAR */
+/* ================= FOTO BESAR ================= */
 
 #viewer {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0,0,0,.97);
   align-items: center;
   justify-content: center;
   padding: 15px;
+  background: rgba(0,0,0,.97);
 }
 
-#viewer img {
+#viewerImage {
   max-width: 100%;
   max-height: 90vh;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 #closeViewer {
   position: absolute;
   right: 15px;
   top: 15px;
-  width: 43px;
-  height: 43px;
+  width: 45px;
+  height: 45px;
   border: 0;
   border-radius: 50%;
   background: #222;
   color: white;
-  font-size: 27px;
+  font-size: 28px;
 }
 
 
-/* HP */
+/* ================= HP ================= */
 
-@media(max-width:430px) {
+@media (max-width: 430px) {
 
-  .logoText {
-    font-size: 48px;
+  #galleryPage {
+    width: 92%;
   }
 
-  .photoTitle {
-    font-size: 15px;
+  .mlTitle {
+    font-size: 49px;
+  }
+
+  .galleryName {
+    font-size: 22px;
   }
 
   .photoDescription {
-    font-size: 11px;
+    font-size: 14px;
   }
 
 }
@@ -340,27 +392,33 @@ body {
 <body>
 
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
 
 <div id="loginPage">
 
   <div class="loginBox">
 
-    <h1>PRIVATE</h1>
+    <div class="loginTitle">
+      PRIVATE
+    </div>
 
     <input
-      type="email"
       id="emailInput"
+      type="email"
       placeholder="Email"
+      autocomplete="email"
     >
 
     <input
-      type="password"
       id="passwordInput"
+      type="password"
       placeholder="Password"
+      autocomplete="current-password"
     >
 
-    <button id="loginBtn">
+    <button
+      id="loginButton"
+      class="loginButton">
       MASUK
     </button>
 
@@ -371,56 +429,71 @@ body {
 </div>
 
 
-<!-- GALERI -->
+<!-- ================= GALERI ================= -->
 
 <div id="galleryPage">
 
-  <div class="logoText">
+  <div class="mlTitle">
     M&L
   </div>
 
-  <div class="subText">
+  <div class="privateText">
     PRIVATE GALLERY
+  </div>
+
+
+  <!-- NAMA GALERI -->
+
+  <div
+    id="galleryName"
+    class="galleryName">
+    M&L
+  </div>
+
+
+  <div
+    id="galleryNameEdit"
+    class="galleryNameEdit">
+
+    <input
+      id="galleryNameInput"
+      type="text"
+      placeholder="Nama galeri"
+    >
+
+    <button id="saveGalleryName">
+      SIMPAN NAMA
+    </button>
+
   </div>
 
 
   <div class="topBar">
 
-    <div class="galleryName">
+    <div class="galleryLabel">
       Gallery
     </div>
 
     <button
-      class="logoutBtn"
-      id="logoutBtn">
+      id="logoutButton"
+      class="logoutButton">
       Logout
     </button>
 
   </div>
 
 
-  <!-- ADMIN -->
+  <!-- ================= ADMIN ================= -->
 
   <div id="adminPanel">
 
-    <div class="adminTitle">
-      Judul Foto
-    </div>
-
-    <input
-      id="titleInput"
-      type="text"
-      placeholder="Contoh: Kenangan M&L"
-    >
-
-
-    <div class="adminTitle">
+    <div class="adminLabel">
       Keterangan Foto
     </div>
 
     <textarea
       id="descriptionInput"
-      placeholder="Tulis keterangan foto..."
+      placeholder="Contoh: Kenangan bersama keluarga..."
     ></textarea>
 
 
@@ -428,7 +501,7 @@ body {
       class="fileLabel"
       for="fileInput">
 
-      + Pilih Foto
+      + PILIH FOTO
 
     </label>
 
@@ -439,26 +512,45 @@ body {
     >
 
 
-    <button id="uploadBtn">
+    <button
+      id="uploadButton"
+      class="uploadButton">
+
       UPLOAD FOTO
+
     </button>
+
+
+    <button
+      id="editNameButton"
+      class="editNameButton">
+
+      UBAH NAMA GALERI
+
+    </button>
+
 
     <div id="uploadStatus"></div>
 
   </div>
 
 
-  <!-- GALERI FOTO -->
+  <!-- FOTO -->
 
   <div
     id="gallery"
     class="gallery">
+
+    <div class="empty">
+      Memuat foto...
+    </div>
+
   </div>
 
 </div>
 
 
-<!-- VIEWER -->
+<!-- ================= VIEWER ================= -->
 
 <div id="viewer">
 
@@ -466,7 +558,9 @@ body {
     ×
   </button>
 
-  <img id="viewerImage">
+  <img
+    id="viewerImage"
+    alt="Foto">
 
 </div>
 
@@ -478,7 +572,7 @@ import {
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* SUPABASE */
+/* ================= SUPABASE ================= */
 
 const SUPABASE_URL =
 "https://vngbbgmmernxgdjzyizs.supabase.co";
@@ -500,7 +594,7 @@ createClient(
 );
 
 
-/* ELEMENT */
+/* ================= ELEMENT ================= */
 
 const loginPage =
 document.getElementById("loginPage");
@@ -508,8 +602,8 @@ document.getElementById("loginPage");
 const galleryPage =
 document.getElementById("galleryPage");
 
-const adminPanel =
-document.getElementById("adminPanel");
+const loginButton =
+document.getElementById("loginButton");
 
 const emailInput =
 document.getElementById("emailInput");
@@ -517,17 +611,14 @@ document.getElementById("emailInput");
 const passwordInput =
 document.getElementById("passwordInput");
 
-const loginBtn =
-document.getElementById("loginBtn");
-
 const loginStatus =
 document.getElementById("loginStatus");
 
-const logoutBtn =
-document.getElementById("logoutBtn");
+const logoutButton =
+document.getElementById("logoutButton");
 
-const titleInput =
-document.getElementById("titleInput");
+const adminPanel =
+document.getElementById("adminPanel");
 
 const descriptionInput =
 document.getElementById("descriptionInput");
@@ -535,14 +626,29 @@ document.getElementById("descriptionInput");
 const fileInput =
 document.getElementById("fileInput");
 
-const uploadBtn =
-document.getElementById("uploadBtn");
+const uploadButton =
+document.getElementById("uploadButton");
+
+const editNameButton =
+document.getElementById("editNameButton");
 
 const uploadStatus =
 document.getElementById("uploadStatus");
 
 const gallery =
 document.getElementById("gallery");
+
+const galleryName =
+document.getElementById("galleryName");
+
+const galleryNameEdit =
+document.getElementById("galleryNameEdit");
+
+const galleryNameInput =
+document.getElementById("galleryNameInput");
+
+const saveGalleryName =
+document.getElementById("saveGalleryName");
 
 const viewer =
 document.getElementById("viewer");
@@ -554,9 +660,9 @@ const closeViewer =
 document.getElementById("closeViewer");
 
 
-/* CEK LOGIN */
+/* ================= CEK LOGIN ================= */
 
-async function checkUser() {
+async function checkLogin() {
 
   const {
     data
@@ -573,6 +679,7 @@ async function checkUser() {
     "none";
 
     return;
+
   }
 
 
@@ -593,13 +700,15 @@ async function checkUser() {
   : "none";
 
 
+  loadGalleryName();
   loadPhotos(isAdmin);
+
 }
 
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
-loginBtn.addEventListener(
+loginButton.addEventListener(
   "click",
   async () => {
 
@@ -624,40 +733,166 @@ loginBtn.addEventListener(
 
     if (error) {
 
+      console.error(error);
+
       loginStatus.textContent =
       "Email atau password salah.";
 
       return;
+
     }
 
 
-    loginStatus.textContent =
-    "";
-
     emailInput.value = "";
     passwordInput.value = "";
+    loginStatus.textContent = "";
 
-    checkUser();
+    checkLogin();
 
   }
 );
 
 
-/* LOGOUT */
+/* ================= LOGOUT ================= */
 
-logoutBtn.addEventListener(
+logoutButton.addEventListener(
   "click",
   async () => {
 
     await supabase.auth.signOut();
 
-    checkUser();
+    checkLogin();
 
   }
 );
 
 
-/* LOAD DATA */
+/* ================= NAMA GALERI ================= */
+
+async function loadGalleryName() {
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("gallery_settings")
+  .select("gallery_name")
+  .eq("id", 1)
+  .maybeSingle();
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  if (data) {
+
+    galleryName.textContent =
+    data.gallery_name;
+
+    galleryNameInput.value =
+    data.gallery_name;
+
+  }
+
+}
+
+
+/* ================= BUKA EDIT NAMA ================= */
+
+editNameButton.addEventListener(
+  "click",
+  () => {
+
+    galleryNameEdit.style.display =
+    galleryNameEdit.style.display ===
+    "block"
+    ? "none"
+    : "block";
+
+  }
+);
+
+
+/* ================= SIMPAN NAMA ================= */
+
+saveGalleryName.addEventListener(
+  "click",
+  async () => {
+
+    const {
+      data: userData
+    } =
+    await supabase.auth.getUser();
+
+
+    if (
+      !userData.user ||
+      userData.user.id !== ADMIN_UID
+    ) {
+
+      return;
+
+    }
+
+
+    const newName =
+    galleryNameInput.value.trim();
+
+
+    if (!newName) {
+
+      alert("Nama galeri tidak boleh kosong.");
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+    await supabase
+    .from("gallery_settings")
+    .update({
+
+      gallery_name:
+      newName
+
+    })
+    .eq("id", 1);
+
+
+    if (error) {
+
+      console.error(error);
+
+      alert(
+        "Gagal mengubah nama galeri."
+      );
+
+      return;
+
+    }
+
+
+    galleryName.textContent =
+    newName;
+
+    galleryNameEdit.style.display =
+    "none";
+
+  }
+);
+
+
+/* ================= LOAD FOTO ================= */
 
 async function loadPhotos(isAdmin) {
 
@@ -687,9 +922,10 @@ async function loadPhotos(isAdmin) {
     console.error(error);
 
     gallery.innerHTML =
-    '<div class="empty">Gagal mengambil data.</div>';
+    '<div class="empty">Gagal memuat foto.</div>';
 
     return;
+
   }
 
 
@@ -702,6 +938,7 @@ async function loadPhotos(isAdmin) {
     '<div class="empty">Belum ada foto.</div>';
 
     return;
+
   }
 
 
@@ -730,24 +967,24 @@ async function loadPhotos(isAdmin) {
       "photoItem";
 
 
-      const imageBox =
+      const photoBox =
       document.createElement("div");
 
-      imageBox.className =
-      "photoImageBox";
+      photoBox.className =
+      "photoBox";
 
 
-      const img =
+      const image =
       document.createElement("img");
 
-      img.src =
+      image.src =
       imageUrl;
 
-      img.alt =
-      record.title;
+      image.alt =
+      "Foto";
 
 
-      imageBox.appendChild(img);
+      photoBox.appendChild(image);
 
 
       /* ADMIN MENU */
@@ -758,7 +995,7 @@ async function loadPhotos(isAdmin) {
         document.createElement("button");
 
         more.className =
-        "moreBtn";
+        "moreButton";
 
         more.textContent =
         "⋮";
@@ -790,7 +1027,9 @@ async function loadPhotos(isAdmin) {
                 "Hapus foto ini?"
               )
             ) {
+
               return;
+
             }
 
 
@@ -812,7 +1051,12 @@ async function loadPhotos(isAdmin) {
                 "Gagal menghapus foto."
               );
 
+              console.error(
+                storageError
+              );
+
               return;
+
             }
 
 
@@ -840,6 +1084,7 @@ async function loadPhotos(isAdmin) {
               );
 
               return;
+
             }
 
 
@@ -870,20 +1115,20 @@ async function loadPhotos(isAdmin) {
         );
 
 
-        imageBox.appendChild(
+        photoBox.appendChild(
           more
         );
 
-        imageBox.appendChild(
+        photoBox.appendChild(
           menu
         );
 
       }
 
 
-      /* PERBESAR */
+      /* PERBESAR FOTO */
 
-      imageBox.addEventListener(
+      photoBox.addEventListener(
         "click",
         () => {
 
@@ -900,20 +1145,7 @@ async function loadPhotos(isAdmin) {
       );
 
 
-      /* JUDUL */
-
-      const title =
-      document.createElement("div");
-
-      title.className =
-      "photoTitle";
-
-      title.textContent =
-      record.title ||
-      "Tanpa judul";
-
-
-      /* KETERANGAN */
+      /* DESKRIPSI */
 
       const description =
       document.createElement("div");
@@ -927,11 +1159,7 @@ async function loadPhotos(isAdmin) {
 
 
       item.appendChild(
-        imageBox
-      );
-
-      item.appendChild(
-        title
+        photoBox
       );
 
 
@@ -956,35 +1184,33 @@ async function loadPhotos(isAdmin) {
 }
 
 
-/* UPLOAD */
+/* ================= UPLOAD ================= */
 
-uploadBtn.addEventListener(
+uploadButton.addEventListener(
   "click",
   async () => {
 
     const {
-      data
+      data: userData
     } =
     await supabase.auth.getUser();
 
 
     if (
-      !data.user ||
-      data.user.id !== ADMIN_UID
+      !userData.user ||
+      userData.user.id !== ADMIN_UID
     ) {
 
       uploadStatus.textContent =
       "Akses ditolak.";
 
       return;
+
     }
 
 
     const file =
     fileInput.files[0];
-
-    const title =
-    titleInput.value.trim();
 
     const description =
     descriptionInput.value.trim();
@@ -993,18 +1219,10 @@ uploadBtn.addEventListener(
     if (!file) {
 
       uploadStatus.textContent =
-      "Pilih foto dulu.";
+      "Pilih foto terlebih dahulu.";
 
       return;
-    }
 
-
-    if (!title) {
-
-      uploadStatus.textContent =
-      "Judul foto wajib diisi.";
-
-      return;
     }
 
 
@@ -1024,7 +1242,7 @@ uploadBtn.addEventListener(
     "_" +
     Math.random()
     .toString(36)
-    .substring(2,8) +
+    .substring(2, 9) +
     "." +
     extension;
 
@@ -1053,18 +1271,22 @@ uploadBtn.addEventListener(
 
     if (uploadError) {
 
-      console.error(
-        uploadError
-      );
+      console.error(uploadError);
 
       uploadStatus.textContent =
-      "Upload gagal.";
+      "Upload foto gagal.";
 
       return;
+
     }
 
 
-    /* SIMPAN DATABASE */
+    /*
+      Tabel lama masih punya kolom title
+      yang wajib diisi.
+      Kita isi dengan "Foto", tetapi
+      tidak ditampilkan di website.
+    */
 
     const {
       error:
@@ -1078,7 +1300,7 @@ uploadBtn.addEventListener(
       fileName,
 
       title:
-      title,
+      "Foto",
 
       description:
       description
@@ -1088,10 +1310,10 @@ uploadBtn.addEventListener(
 
     if (databaseError) {
 
-      console.error(
-        databaseError
-      );
+      console.error(databaseError);
 
+
+      /* Bersihkan file kalau database gagal */
 
       await supabase
       .storage
@@ -1105,14 +1327,14 @@ uploadBtn.addEventListener(
       "Gagal menyimpan data foto.";
 
       return;
+
     }
 
 
     uploadStatus.textContent =
-    "Foto berhasil diupload.";
+    "Foto berhasil ditambahkan.";
 
 
-    titleInput.value = "";
     descriptionInput.value = "";
     fileInput.value = "";
 
@@ -1123,9 +1345,9 @@ uploadBtn.addEventListener(
 );
 
 
-/* FOTO BESAR */
+/* ================= VIEWER ================= */
 
-function closeViewerBox() {
+function closePhoto() {
 
   viewer.style.display =
   "none";
@@ -1141,7 +1363,7 @@ function closeViewerBox() {
 
 closeViewer.addEventListener(
   "click",
-  closeViewerBox
+  closePhoto
 );
 
 
@@ -1153,15 +1375,13 @@ viewer.addEventListener(
       event.target === viewer
     ) {
 
-      closeViewerBox();
+      closePhoto();
 
     }
 
   }
 );
 
-
-/* ESC */
 
 document.addEventListener(
   "keydown",
@@ -1171,7 +1391,7 @@ document.addEventListener(
       event.key === "Escape"
     ) {
 
-      closeViewerBox();
+      closePhoto();
 
     }
 
@@ -1179,20 +1399,20 @@ document.addEventListener(
 );
 
 
-/* AUTH */
+/* ================= AUTH ================= */
 
 supabase.auth.onAuthStateChange(
   () => {
 
-    checkUser();
+    checkLogin();
 
   }
 );
 
 
-/* MULAI */
+/* ================= MULAI ================= */
 
-checkUser();
+checkLogin();
 
 </script>
 
