@@ -1,4 +1,816 @@
-const supabase = window.supabase.createClient(
-  "https://vngbbgmmernxgdjzyizs.supabase.co",
-  "sb_publishable_WmqF6NVq_f8IOGycOYO_CA_FaLrbXeS"
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M&L Private Gallery</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:#050505;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.loginBox{
+  width:100%;
+  max-width:370px;
+  padding:28px 24px;
+  background:#111;
+  border:1px solid #292929;
+  border-radius:20px;
+}
+
+.loginTitle{
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:6px;
+  margin-bottom:28px;
+}
+
+.loginBox input{
+  width:100%;
+  padding:15px;
+  margin-bottom:12px;
+  background:#050505;
+  color:white;
+  border:1px solid #333;
+  border-radius:10px;
+  outline:none;
+}
+
+#loginButton{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:10px;
+  background:white;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#loginStatus{
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+  margin-top:12px;
+}
+
+#galleryPage{
+  display:none;
+  width:92%;
+  max-width:650px;
+  margin:auto;
+  padding:30px 0 60px;
+}
+
+.mlTitle{
+  text-align:center;
+  font-size:55px;
+  font-weight:900;
+  letter-spacing:8px;
+}
+
+.privateText{
+  text-align:center;
+  color:#777;
+  font-size:10px;
+  letter-spacing:5px;
+}
+
+.galleryName{
+  text-align:center;
+  font-size:25px;
+  font-weight:bold;
+  margin:25px 0;
+}
+
+.topBar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.logoutButton{
+  padding:9px 14px;
+  border-radius:9px;
+  border:1px solid #333;
+  background:#111;
+  color:#aaa;
+}
+
+#adminPanel{
+  display:none;
+  background:#111;
+  border:1px solid #292929;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:22px;
+}
+
+#descriptionInput{
+  width:100%;
+  min-height:80px;
+  padding:13px;
+  margin-bottom:10px;
+  background:#050505;
+  color:white;
+  border:1px solid #333;
+  border-radius:10px;
+  resize:vertical;
+}
+
+.fileLabel{
+  display:block;
+  text-align:center;
+  padding:13px;
+  border:1px dashed #444;
+  border-radius:10px;
+  color:#aaa;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+
+#fileInput{
+  display:none;
+}
+
+#uploadButton{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:white;
+  color:black;
+  font-weight:bold;
+}
+
+#uploadStatus{
+  text-align:center;
+  color:#aaa;
+  font-size:12px;
+  margin-top:9px;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.photoBox{
+  width:100%;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  border-radius:15px;
+  background:#111;
+  cursor:pointer;
+}
+
+.photoBox img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.photoDescription{
+  margin-top:9px;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.4;
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  color:#666;
+  padding:40px 10px;
+}
+
+#viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.97);
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+#viewerImage{
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
+}
+
+#closeViewer{
+  position:absolute;
+  top:15px;
+  right:15px;
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:50%;
+  background:#222;
+  color:white;
+  font-size:28px;
+}
+
+@media(max-width:430px){
+  .mlTitle{
+    font-size:48px;
+  }
+
+  .galleryName{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginPage">
+
+  <div class="loginBox">
+
+    <div class="loginTitle">PRIVATE</div>
+
+    <input
+      id="emailInput"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="passwordInput"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button id="loginButton">
+      MASUK
+    </button>
+
+    <div id="loginStatus"></div>
+
+  </div>
+
+</div>
+
+
+<div id="galleryPage">
+
+  <div class="mlTitle">M&L</div>
+
+  <div class="privateText">
+    PRIVATE GALLERY
+  </div>
+
+  <div class="galleryName">
+    M&L
+  </div>
+
+  <div class="topBar">
+    <b>Gallery</b>
+
+    <button
+      id="logoutButton"
+      type="button">
+      Logout
+    </button>
+  </div>
+
+
+  <div id="adminPanel">
+
+    <div style="color:#aaa;font-size:13px;margin-bottom:8px;">
+      Keterangan Foto
+    </div>
+
+    <textarea
+      id="descriptionInput"
+      placeholder="Tulis keterangan foto..."
+    ></textarea>
+
+    <label
+      class="fileLabel"
+      for="fileInput">
+      + PILIH FOTO
+    </label>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/*"
+    >
+
+    <button
+      id="uploadButton"
+      type="button">
+      UPLOAD FOTO
+    </button>
+
+    <div id="uploadStatus"></div>
+
+  </div>
+
+
+  <div id="gallery" class="gallery">
+    <div class="empty">
+      Memuat foto...
+    </div>
+  </div>
+
+</div>
+
+
+<div id="viewer">
+
+  <button id="closeViewer">
+    ×
+  </button>
+
+  <img
+    id="viewerImage"
+    alt="Foto"
+  >
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://vngbbgmmernxgdjzyizs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_WmqF6NVq_f8IOGycOYO_CA_FaLrbXeS";
+
+const BUCKET =
+"Foto";
+
+const ADMIN_UID =
+"68fb3fcd-dcf1-4176-8340-7f6fa8f90dce";
+
+
+const supabase =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
+
+
+const loginPage =
+document.getElementById("loginPage");
+
+const galleryPage =
+document.getElementById("galleryPage");
+
+const emailInput =
+document.getElementById("emailInput");
+
+const passwordInput =
+document.getElementById("passwordInput");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const loginStatus =
+document.getElementById("loginStatus");
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+const adminPanel =
+document.getElementById("adminPanel");
+
+const descriptionInput =
+document.getElementById("descriptionInput");
+
+const fileInput =
+document.getElementById("fileInput");
+
+const uploadButton =
+document.getElementById("uploadButton");
+
+const uploadStatus =
+document.getElementById("uploadStatus");
+
+const gallery =
+document.getElementById("gallery");
+
+const viewer =
+document.getElementById("viewer");
+
+const viewerImage =
+document.getElementById("viewerImage");
+
+const closeViewer =
+document.getElementById("closeViewer");
+
+
+async function login(){
+
+  const email =
+  emailInput.value.trim();
+
+  const password =
+  passwordInput.value;
+
+  if(!email){
+    loginStatus.textContent =
+    "Masukkan email.";
+    return;
+  }
+
+  if(!password){
+    loginStatus.textContent =
+    "Masukkan password.";
+    return;
+  }
+
+  loginStatus.textContent =
+  "Sedang masuk...";
+
+  const result =
+  await supabase.auth.signInWithPassword({
+    email:email,
+    password:password
+  });
+
+  if(result.error){
+
+    console.error(result.error);
+
+    loginStatus.textContent =
+    "Login gagal: " +
+    result.error.message;
+
+    return;
+  }
+
+  loginStatus.textContent =
+  "Berhasil masuk.";
+
+  bukaGallery(result.data.user);
+}
+
+
+loginButton.addEventListener(
+  "click",
+  login
+);
+
+
+passwordInput.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+      login();
+    }
+
+  }
+);
+
+
+async function bukaGallery(user){
+
+  loginPage.style.display =
+  "none";
+
+  galleryPage.style.display =
+  "block";
+
+  const admin =
+  user.id === ADMIN_UID;
+
+  adminPanel.style.display =
+  admin ? "block" : "none";
+
+  loadPhotos(admin);
+}
+
+
+async function cekLogin(){
+
+  const result =
+  await supabase.auth.getUser();
+
+  if(result.data.user){
+
+    bukaGallery(
+      result.data.user
+    );
+
+  }else{
+
+    loginPage.style.display =
+    "flex";
+
+    galleryPage.style.display =
+    "none";
+  }
+}
+
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    await supabase.auth.signOut();
+
+    galleryPage.style.display =
+    "none";
+
+    loginPage.style.display =
+    "flex";
+
+  }
+);
+
+
+async function loadPhotos(isAdmin){
+
+  gallery.innerHTML =
+  '<div class="empty">Memuat foto...</div>';
+
+  const result =
+  await supabase
+  .from("gallery_photos")
+  .select(
+    "id,file_name,title,description,created_at"
+  )
+  .order(
+    "created_at",
+    {
+      ascending:false
+    }
+  );
+
+  if(result.error){
+
+    console.error(result.error);
+
+    gallery.innerHTML =
+    '<div class="empty">Gagal memuat foto.</div>';
+
+    return;
+  }
+
+  gallery.innerHTML = "";
+
+  if(!result.data.length){
+
+    gallery.innerHTML =
+    '<div class="empty">Belum ada foto.</div>';
+
+    return;
+  }
+
+  result.data.forEach(
+    function(record){
+
+      const publicUrl =
+      supabase.storage
+      .from(BUCKET)
+      .getPublicUrl(
+        record.file_name
+      ).data.publicUrl;
+
+      const item =
+      document.createElement("div");
+
+      const box =
+      document.createElement("div");
+
+      const img =
+      document.createElement("img");
+
+      item.className =
+      "photoItem";
+
+      box.className =
+      "photoBox";
+
+      img.src =
+      publicUrl;
+
+      img.alt =
+      "Foto";
+
+      box.appendChild(img);
+
+      box.addEventListener(
+        "click",
+        function(){
+
+          viewerImage.src =
+          publicUrl;
+
+          viewer.style.display =
+          "flex";
+
+        }
+      );
+
+      item.appendChild(box);
+
+      if(record.description){
+
+        const desc =
+        document.createElement("div");
+
+        desc.className =
+        "photoDescription";
+
+        desc.textContent =
+        record.description;
+
+        item.appendChild(desc);
+      }
+
+      gallery.appendChild(item);
+
+    }
+  );
+}
+
+
+uploadButton.addEventListener(
+  "click",
+  async function(){
+
+    const userResult =
+    await supabase.auth.getUser();
+
+    const user =
+    userResult.data.user;
+
+    if(
+      !user ||
+      user.id !== ADMIN_UID
+    ){
+
+      uploadStatus.textContent =
+      "Akses ditolak.";
+
+      return;
+    }
+
+    const file =
+    fileInput.files[0];
+
+    const description =
+    descriptionInput.value.trim();
+
+    if(!file){
+
+      uploadStatus.textContent =
+      "Pilih foto terlebih dahulu.";
+
+      return;
+    }
+
+    uploadStatus.textContent =
+    "Mengupload...";
+
+    const ext =
+    file.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+    const fileName =
+    Date.now() +
+    "_" +
+    Math.random()
+    .toString(36)
+    .substring(2,9) +
+    "." +
+    ext;
+
+    const upload =
+    await supabase.storage
+    .from(BUCKET)
+    .upload(
+      fileName,
+      file,
+      {
+        upsert:false
+      }
+    );
+
+    if(upload.error){
+
+      console.error(upload.error);
+
+      uploadStatus.textContent =
+      "Gagal upload foto: " +
+      upload.error.message;
+
+      return;
+    }
+
+    const insert =
+    await supabase
+    .from("gallery_photos")
+    .insert({
+
+      file_name:fileName,
+
+      title:"Foto",
+
+      description:description
+
+    });
+
+    if(insert.error){
+
+      console.error(insert.error);
+
+      await supabase.storage
+      .from(BUCKET)
+      .remove([fileName]);
+
+      uploadStatus.textContent =
+      "Gagal menyimpan data: " +
+      insert.error.message;
+
+      return;
+    }
+
+    descriptionInput.value =
+    "";
+
+    fileInput.value =
+    "";
+
+    uploadStatus.textContent =
+    "Foto berhasil diupload.";
+
+    loadPhotos(true);
+
+  }
+);
+
+
+closeViewer.addEventListener(
+  "click",
+  function(){
+
+    viewer.style.display =
+    "none";
+
+    viewerImage.src =
+    "";
+
+  }
+);
+
+
+viewer.addEventListener(
+  "click",
+  function(event){
+
+    if(event.target === viewer){
+
+      viewer.style.display =
+      "none";
+
+      viewerImage.src =
+      "";
+
+    }
+
+  }
+);
+
+
+cekLogin();
+
+</script>
+
+</body>
+  </html>
