@@ -3,333 +3,330 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M&L</title>
+<title>M&L Private Gallery</title>
 
 <style>
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:#050505;
-  color:white;
-  font-family:Arial,sans-serif;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #050505;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
 
 /* LOGIN */
 
-#loginPage{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+#loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.loginBox{
-  width:100%;
-  max-width:370px;
-  background:#111;
-  padding:28px 24px;
-  border:1px solid #292929;
-  border-radius:20px;
+.loginBox {
+  width: 100%;
+  max-width: 370px;
+  padding: 28px 24px;
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 20px;
 }
 
-.loginTitle{
-  text-align:center;
-  font-size:24px;
-  font-weight:900;
-  letter-spacing:6px;
-  margin-bottom:28px;
+.loginTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  margin-bottom: 28px;
 }
 
-.loginBox input{
-  width:100%;
-  padding:15px;
-  margin-bottom:12px;
-  background:#050505;
-  color:white;
-  border:1px solid #333;
-  border-radius:10px;
-  outline:none;
-  font-size:15px;
+.loginBox input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: #050505;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
 }
 
-.loginButton{
-  width:100%;
-  padding:15px;
-  background:white;
-  color:black;
-  border:0;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
+.loginButton {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  color: black;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.loginButton:disabled{
-  opacity:.5;
+.loginStatus {
+  text-align: center;
+  margin-top: 12px;
+  color: #aaa;
+  font-size: 13px;
 }
-
-#loginStatus{
-  text-align:center;
-  margin-top:12px;
-  color:#aaa;
-  font-size:13px;
-}
-
 
 /* GALERI */
 
-#galleryPage{
-  display:none;
-  width:92%;
-  max-width:650px;
-  margin:auto;
-  padding:30px 0 60px;
+#galleryPage {
+  display: none;
+  width: 92%;
+  max-width: 650px;
+  margin: auto;
+  padding: 30px 0 60px;
 }
 
-.mlTitle{
-  text-align:center;
-  font-size:55px;
-  font-weight:900;
-  letter-spacing:8px;
+.mlTitle {
+  text-align: center;
+  font-size: 55px;
+  font-weight: 900;
+  letter-spacing: 8px;
 }
 
-.privateText{
-  text-align:center;
-  color:#777;
-  font-size:10px;
-  letter-spacing:5px;
-  margin-top:3px;
+.privateText {
+  text-align: center;
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 5px;
 }
 
-.galleryName{
-  text-align:center;
-  font-size:25px;
-  font-weight:bold;
-  margin:25px 0;
+.galleryName {
+  text-align: center;
+  margin: 25px 0;
+  font-size: 25px;
+  font-weight: bold;
 }
 
-.topBar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-.galleryLabel{
-  font-size:20px;
-  font-weight:bold;
+.galleryLabel {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.logoutButton{
-  padding:9px 14px;
-  border-radius:9px;
-  border:1px solid #333;
-  background:#111;
-  color:#aaa;
+.logoutButton {
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1px solid #333;
+  background: #111;
+  color: #aaa;
+  cursor: pointer;
 }
-
 
 /* ADMIN */
 
-#adminPanel{
-  display:none;
-  background:#111;
-  border:1px solid #292929;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:22px;
+#adminPanel {
+  display: none;
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 22px;
 }
 
-.adminLabel{
-  color:#aaa;
-  font-size:13px;
-  margin-bottom:8px;
+.adminLabel {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 8px;
 }
 
-#descriptionInput{
-  width:100%;
-  min-height:80px;
-  padding:13px;
-  background:#050505;
-  color:white;
-  border:1px solid #333;
-  border-radius:10px;
-  outline:none;
-  resize:vertical;
-  margin-bottom:10px;
+#descriptionInput {
+  width: 100%;
+  min-height: 80px;
+  padding: 13px;
+  background: #050505;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 10px;
+  outline: none;
+  resize: vertical;
+  margin-bottom: 10px;
 }
 
-.fileLabel{
-  display:block;
-  padding:13px;
-  text-align:center;
-  border:1px dashed #444;
-  border-radius:10px;
-  color:#aaa;
-  cursor:pointer;
-  margin-bottom:10px;
+.fileLabel {
+  display: block;
+  padding: 13px;
+  text-align: center;
+  border: 1px dashed #444;
+  border-radius: 10px;
+  color: #aaa;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
-#fileInput{
-  display:none;
+#fileInput {
+  display: none;
 }
 
-.uploadButton{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:10px;
-  background:white;
-  color:black;
-  font-weight:bold;
+.uploadButton {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-#uploadStatus{
-  text-align:center;
-  margin-top:9px;
-  color:#aaa;
-  font-size:12px;
+.uploadStatus {
+  text-align: center;
+  margin-top: 9px;
+  color: #aaa;
+  font-size: 12px;
 }
-
 
 /* FOTO */
 
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
 }
 
-.photoItem{
-  min-width:0;
+.photoItem {
+  min-width: 0;
 }
 
-.photoBox{
-  position:relative;
-  width:100%;
-  aspect-ratio:1/1;
-  overflow:hidden;
-  border-radius:15px;
-  background:#111;
-  cursor:pointer;
+.photoBox {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #111;
+  cursor: pointer;
 }
 
-.photoBox img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
+.photoBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.photoDescription{
-  margin-top:9px;
-  padding:0 3px;
-  font-size:15px;
-  font-weight:600;
-  line-height:1.4;
+.photoDescription {
+  margin-top: 9px;
+  padding: 0 3px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #eee;
 }
 
-.moreButton{
-  position:absolute;
-  top:8px;
-  right:8px;
-  width:35px;
-  height:35px;
-  border:0;
-  border-radius:50%;
-  background:rgba(0,0,0,.75);
-  color:white;
-  font-size:22px;
-  z-index:5;
+/* MENU */
+
+.moreButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 35px;
+  height: 35px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: white;
+  font-size: 22px;
+  z-index: 5;
+  cursor: pointer;
 }
 
-.photoMenu{
-  display:none;
-  position:absolute;
-  top:48px;
-  right:8px;
-  background:#181818;
-  border:1px solid #333;
-  border-radius:10px;
-  overflow:hidden;
-  z-index:10;
+.photoMenu {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 8px;
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 20;
 }
 
-.photoMenu button{
-  padding:12px 18px;
-  background:#181818;
-  color:white;
-  border:0;
+.photoMenu button {
+  padding: 12px 18px;
+  background: #181818;
+  color: white;
+  border: 0;
+  cursor: pointer;
 }
 
-.empty{
-  grid-column:1/-1;
-  text-align:center;
-  color:#666;
-  padding:40px 10px;
+/* KOSONG */
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  padding: 40px 10px;
 }
 
+/* VIEWER */
 
-/* FOTO BESAR */
-
-#viewer{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.97);
-  z-index:9999;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
+#viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.97);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
 }
 
-#viewerImage{
-  max-width:100%;
-  max-height:90vh;
-  object-fit:contain;
-  border-radius:10px;
+#viewerImage {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
-#closeViewer{
-  position:absolute;
-  top:15px;
-  right:15px;
-  width:45px;
-  height:45px;
-  border:0;
-  border-radius:50%;
-  background:#222;
-  color:white;
-  font-size:28px;
+#closeViewer {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 45px;
+  height: 45px;
+  border: 0;
+  border-radius: 50%;
+  background: #222;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
 }
-
 
 /* HP */
 
-@media(max-width:430px){
-
-  .mlTitle{
-    font-size:48px;
+@media (max-width: 430px) {
+  .mlTitle {
+    font-size: 48px;
   }
 
-  .galleryName{
-    font-size:22px;
+  .galleryName {
+    font-size: 22px;
   }
 
-  .photoDescription{
-    font-size:14px;
+  .photoDescription {
+    font-size: 14px;
   }
-
 }
 </style>
 </head>
 
 <body>
-
 
 <!-- LOGIN -->
 
@@ -345,12 +342,14 @@ body{
       id="emailInput"
       type="email"
       placeholder="Email"
+      autocomplete="email"
     >
 
     <input
       id="passwordInput"
       type="password"
       placeholder="Password"
+      autocomplete="current-password"
     >
 
     <button
@@ -360,7 +359,10 @@ body{
       MASUK
     </button>
 
-    <div id="loginStatus"></div>
+    <div
+      id="loginStatus"
+      class="loginStatus">
+    </div>
 
   </div>
 
@@ -399,7 +401,7 @@ body{
   </div>
 
 
-  <!-- ADMIN -->
+  <!-- PANEL ADMIN -->
 
   <div id="adminPanel">
 
@@ -409,8 +411,8 @@ body{
 
     <textarea
       id="descriptionInput"
-      placeholder="Tulis keterangan foto..."
-    ></textarea>
+      placeholder="Tulis keterangan foto...">
+    </textarea>
 
     <label
       class="fileLabel"
@@ -431,10 +433,15 @@ body{
       UPLOAD FOTO
     </button>
 
-    <div id="uploadStatus"></div>
+    <div
+      id="uploadStatus"
+      class="uploadStatus">
+    </div>
 
   </div>
 
+
+  <!-- GALERI FOTO -->
 
   <div
     id="gallery"
@@ -449,7 +456,7 @@ body{
 </div>
 
 
-<!-- VIEWER -->
+<!-- FOTO BESAR -->
 
 <div id="viewer">
 
@@ -466,12 +473,14 @@ body{
 </div>
 
 
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 /* =========================
-   SUPABASE
+   PENGATURAN SUPABASE
 ========================= */
 
 const SUPABASE_URL =
@@ -553,7 +562,7 @@ document.getElementById("closeViewer");
 
 loginButton.addEventListener(
   "click",
-  async function(){
+  async function () {
 
     const email =
     emailInput.value.trim();
@@ -561,7 +570,7 @@ loginButton.addEventListener(
     const password =
     passwordInput.value;
 
-    if(!email){
+    if (!email) {
 
       loginStatus.textContent =
       "Masukkan email.";
@@ -569,7 +578,7 @@ loginButton.addEventListener(
       return;
     }
 
-    if(!password){
+    if (!password) {
 
       loginStatus.textContent =
       "Masukkan password.";
@@ -587,9 +596,9 @@ loginButton.addEventListener(
     const result =
     await supabase.auth.signInWithPassword({
 
-      email:email,
+      email: email,
 
-      password:password
+      password: password
 
     });
 
@@ -598,7 +607,7 @@ loginButton.addEventListener(
     false;
 
 
-    if(result.error){
+    if (result.error) {
 
       console.error(
         result.error
@@ -615,7 +624,7 @@ loginButton.addEventListener(
     loginStatus.textContent =
     "";
 
-    tampilkanGallery(
+    showGallery(
       result.data.user
     );
 
@@ -623,13 +632,13 @@ loginButton.addEventListener(
 );
 
 
-/* ENTER UNTUK LOGIN */
+/* ENTER = LOGIN */
 
 passwordInput.addEventListener(
   "keydown",
-  function(event){
+  function (event) {
 
-    if(event.key === "Enter"){
+    if (event.key === "Enter") {
 
       loginButton.click();
 
@@ -643,7 +652,7 @@ passwordInput.addEventListener(
    TAMPILKAN GALERI
 ========================= */
 
-async function tampilkanGallery(user){
+async function showGallery(user) {
 
   loginPage.style.display =
   "none";
@@ -656,17 +665,10 @@ async function tampilkanGallery(user){
   user.id === ADMIN_UID;
 
 
-  if(isAdmin){
-
-    adminPanel.style.display =
-    "block";
-
-  }else{
-
-    adminPanel.style.display =
-    "none";
-
-  }
+  adminPanel.style.display =
+  isAdmin
+  ? "block"
+  : "none";
 
 
   loadPhotos(isAdmin);
@@ -675,21 +677,22 @@ async function tampilkanGallery(user){
 
 
 /* =========================
-   CEK LOGIN SAAT HALAMAN DIBUKA
+   CEK SESSION
 ========================= */
 
-async function cekSession(){
+async function checkSession() {
 
   const result =
   await supabase.auth.getUser();
 
-  if(result.data.user){
 
-    tampilkanGallery(
+  if (result.data.user) {
+
+    showGallery(
       result.data.user
     );
 
-  }else{
+  } else {
 
     loginPage.style.display =
     "flex";
@@ -708,7 +711,7 @@ async function cekSession(){
 
 logoutButton.addEventListener(
   "click",
-  async function(){
+  async function () {
 
     await supabase.auth.signOut();
 
@@ -726,7 +729,7 @@ logoutButton.addEventListener(
    LOAD FOTO
 ========================= */
 
-async function loadPhotos(isAdmin){
+async function loadPhotos(isAdmin) {
 
   gallery.innerHTML =
   '<div class="empty">Memuat foto...</div>';
@@ -741,19 +744,19 @@ async function loadPhotos(isAdmin){
   .order(
     "created_at",
     {
-      ascending:false
+      ascending: false
     }
   );
 
 
-  if(result.error){
+  if (result.error) {
 
     console.error(
       result.error
     );
 
     gallery.innerHTML =
-    '<div class="empty">Gagal memuat data foto.</div>';
+    '<div class="empty">Gagal memuat foto.</div>';
 
     return;
   }
@@ -763,7 +766,7 @@ async function loadPhotos(isAdmin){
   "";
 
 
-  if(!result.data.length){
+  if (!result.data.length) {
 
     gallery.innerHTML =
     '<div class="empty">Belum ada foto.</div>';
@@ -773,7 +776,7 @@ async function loadPhotos(isAdmin){
 
 
   result.data.forEach(
-    function(record){
+    function (record) {
 
       const publicResult =
       supabase.storage
@@ -816,7 +819,7 @@ async function loadPhotos(isAdmin){
 
       /* MENU ADMIN */
 
-      if(isAdmin){
+      if (isAdmin) {
 
         const more =
         document.createElement("button");
@@ -850,16 +853,16 @@ async function loadPhotos(isAdmin){
 
         deleteButton.addEventListener(
           "click",
-          async function(event){
+          async function (event) {
 
             event.stopPropagation();
 
 
-            if(
+            if (
               !confirm(
                 "Hapus foto ini?"
               )
-            ){
+            ) {
 
               return;
 
@@ -874,10 +877,14 @@ async function loadPhotos(isAdmin){
             ]);
 
 
-            if(storageResult.error){
+            if (storageResult.error) {
 
               alert(
-                "Gagal menghapus file."
+                "Gagal menghapus foto."
+              );
+
+              console.error(
+                storageResult.error
               );
 
               return;
@@ -894,10 +901,14 @@ async function loadPhotos(isAdmin){
             );
 
 
-            if(databaseResult.error){
+            if (databaseResult.error) {
 
               alert(
                 "Gagal menghapus data."
+              );
+
+              console.error(
+                databaseResult.error
               );
 
               return;
@@ -917,24 +928,14 @@ async function loadPhotos(isAdmin){
 
         more.addEventListener(
           "click",
-          function(event){
+          function (event) {
 
             event.stopPropagation();
 
-            if(
-              menu.style.display ===
-              "block"
-            ){
-
-              menu.style.display =
-              "none";
-
-            }else{
-
-              menu.style.display =
-              "block";
-
-            }
+            menu.style.display =
+            menu.style.display === "block"
+            ? "none"
+            : "block";
 
           }
         );
@@ -950,13 +951,16 @@ async function loadPhotos(isAdmin){
 
       box.addEventListener(
         "click",
-        function(){
+        function () {
 
           viewerImage.src =
           imageUrl;
 
           viewer.style.display =
           "flex";
+
+          document.body.style.overflow =
+          "hidden";
 
         }
       );
@@ -965,9 +969,9 @@ async function loadPhotos(isAdmin){
       item.appendChild(box);
 
 
-      /* KETERANGAN */
+      /* DESKRIPSI */
 
-      if(record.description){
+      if (record.description) {
 
         const description =
         document.createElement("div");
@@ -996,24 +1000,24 @@ async function loadPhotos(isAdmin){
 
 
 /* =========================
-   UPLOAD FOTO
+   UPLOAD
 ========================= */
 
 uploadButton.addEventListener(
   "click",
-  async function(){
+  async function () {
 
-    const session =
+    const userResult =
     await supabase.auth.getUser();
 
     const user =
-    session.data.user;
+    userResult.data.user;
 
 
-    if(
+    if (
       !user ||
       user.id !== ADMIN_UID
-    ){
+    ) {
 
       uploadStatus.textContent =
       "Akses ditolak.";
@@ -1029,7 +1033,7 @@ uploadButton.addEventListener(
     descriptionInput.value.trim();
 
 
-    if(!file){
+    if (!file) {
 
       uploadStatus.textContent =
       "Pilih foto terlebih dahulu.";
@@ -1057,12 +1061,12 @@ uploadButton.addEventListener(
     "_" +
     Math.random()
     .toString(36)
-    .substring(2,9) +
+    .substring(2, 9) +
     "." +
     extension;
 
 
-    /* STORAGE */
+    /* UPLOAD STORAGE */
 
     const storageResult =
     await supabase.storage
@@ -1071,13 +1075,13 @@ uploadButton.addEventListener(
       fileName,
       file,
       {
-        cacheControl:"3600",
-        upsert:false
+        cacheControl: "3600",
+        upsert: false
       }
     );
 
 
-    if(storageResult.error){
+    if (storageResult.error) {
 
       console.error(
         storageResult.error
@@ -1093,7 +1097,7 @@ uploadButton.addEventListener(
     }
 
 
-    /* DATABASE */
+    /* SIMPAN DATABASE */
 
     const databaseResult =
     await supabase
@@ -1112,7 +1116,7 @@ uploadButton.addEventListener(
     });
 
 
-    if(databaseResult.error){
+    if (databaseResult.error) {
 
       console.error(
         databaseResult.error
@@ -1121,4 +1125,116 @@ uploadButton.addEventListener(
 
       await supabase.storage
       .from(BUCKET)
-      .
+      .remove([
+        fileName
+      ]);
+
+
+      uploadStatus.textContent =
+      "Gagal menyimpan data foto.";
+
+      uploadButton.disabled =
+      false;
+
+      return;
+    }
+
+
+    descriptionInput.value =
+    "";
+
+    fileInput.value =
+    "";
+
+    uploadStatus.textContent =
+    "Foto berhasil ditambahkan.";
+
+    uploadButton.disabled =
+    false;
+
+
+    loadPhotos(true);
+
+  }
+);
+
+
+/* =========================
+   VIEWER
+========================= */
+
+closeViewer.addEventListener(
+  "click",
+  function () {
+
+    viewer.style.display =
+    "none";
+
+    viewerImage.src =
+    "";
+
+    document.body.style.overflow =
+    "";
+
+  }
+);
+
+
+viewer.addEventListener(
+  "click",
+  function (event) {
+
+    if (
+      event.target === viewer
+    ) {
+
+      viewer.style.display =
+      "none";
+
+      viewerImage.src =
+      "";
+
+      document.body.style.overflow =
+      "";
+
+    }
+
+  }
+);
+
+
+/* ESC */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      viewer.style.display =
+      "none";
+
+      viewerImage.src =
+      "";
+
+      document.body.style.overflow =
+      "";
+
+    }
+
+  }
+);
+
+
+/* =========================
+   MULAI
+========================= */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
