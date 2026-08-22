@@ -1,460 +1,1198 @@
-        const img =
-        document.createElement("img");
-
-        img.src = imageURL;
-        img.alt = record.title || "Foto M&L";
-
-        card.appendChild(img);
-
-
-        /* =====================
-           MENU ADMIN
-        ===================== */
-
-        if (isAdmin) {
-
-            const moreBtn =
-            document.createElement("button");
-
-            moreBtn.className = "more-btn";
-            moreBtn.innerHTML = "⋮";
-
-
-            const menu =
-            document.createElement("div");
-
-            menu.className = "photo-menu";
-
-
-            const deleteBtn =
-            document.createElement("button");
-
-            deleteBtn.textContent = "Hapus foto";
-
-
-            deleteBtn.addEventListener(
-                "click",
-                async (event) => {
-
-                    event.stopPropagation();
-
-                    const yakin =
-                    confirm("Hapus foto ini?");
-
-                    if (!yakin) return;
-
-
-                    const {
-                        error: fileError
-                    } =
-                    await supabase
-                    .storage
-                    .from(BUCKET)
-                    .remove([
-                        record.file_name
-                    ]);
-
-
-                    if (fileError) {
-
-                        alert(
-                            "Gagal menghapus file foto."
-                        );
-
-                        return;
-                    }
-
-
-                    const {
-                        error: dbError
-                    } =
-                    await supabase
-                    .from("gallery_photos")
-                    .delete()
-                    .eq(
-                        "id",
-                        record.id
-                    );
-
-
-                    if (dbError) {
-
-                        alert(
-                            "Foto terhapus dari Storage, tetapi data judul gagal dihapus."
-                        );
-
-                        console.error(dbError);
-
-                        return;
-                    }
-
-
-                    loadGallery(true);
-
-                }
-            );
-
-
-            menu.appendChild(deleteBtn);
-
-
-            moreBtn.addEventListener(
-                "click",
-                (event) => {
-
-                    event.stopPropagation();
-
-                    document
-                    .querySelectorAll(
-                        ".photo-menu"
-                    )
-                    .forEach(
-                        m => {
-                            if (m !== menu) {
-                                m.style.display =
-                                "none";
-                            }
-                        }
-                    );
-
-
-                    menu.style.display =
-                    menu.style.display === "block"
-                    ? "none"
-                    : "block";
-
-                }
-            );
-
-
-            card.appendChild(moreBtn);
-            card.appendChild(menu);
-
-        }
-
-
-        /* =====================
-           KLIK FOTO
-        ===================== */
-
-        card.addEventListener(
-            "click",
-            () => {
-
-                viewerImage.src =
-                imageURL;
-
-                viewer.style.display =
-                "flex";
-
-                document.body.style.overflow =
-                "hidden";
-
-            }
-        );
-
-
-        /* =====================
-           JUDUL
-        ===================== */
-
-        const title =
-        document.createElement("div");
-
-        title.className =
-        "photo-title";
-
-        title.textContent =
-        record.title || "Tanpa judul";
-
-
-        /* =====================
-           KETERANGAN
-        ===================== */
-
-        const description =
-        document.createElement("div");
-
-        description.className =
-        "photo-description";
-
-        description.textContent =
-        record.description || "";
-
-
-        item.appendChild(card);
-        item.appendChild(title);
-
-        if (record.description) {
-            item.appendChild(description);
-        }
-
-        gallery.appendChild(item);
-
-    }
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M&L</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #080808;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* LOGIN */
+
+#loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.loginBox {
+  width: 100%;
+  max-width: 360px;
+  background: #111;
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid #292929;
+}
+
+.loginBox h1 {
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 5px;
+  margin-bottom: 25px;
+}
+
+.loginBox input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #050505;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 10px;
+  outline: none;
+}
+
+.loginBox button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#loginStatus {
+  text-align: center;
+  color: #888;
+  margin-top: 10px;
+  font-size: 13px;
 }
 
 
-/* =========================
-   UPLOAD FOTO
-========================= */
+/* GALERI */
 
-uploadBtn.addEventListener(
-    "click",
-    async () => {
+#galleryPage {
+  display: none;
+  width: 92%;
+  max-width: 650px;
+  margin: auto;
+  padding: 30px 0 60px;
+}
 
-        const {
-            data
-        } =
-        await supabase.auth.getUser();
+.logoText {
+  text-align: center;
+  font-size: 55px;
+  font-weight: 900;
+  letter-spacing: 8px;
+}
 
+.subText {
+  text-align: center;
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 5px;
+  margin-bottom: 30px;
+}
 
-        if (
-            !data.user ||
-            data.user.id !== ADMIN_UID
-        ) {
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
 
-            uploadStatus.textContent =
-            "Akses ditolak.";
+.galleryName {
+  font-size: 21px;
+  font-weight: bold;
+}
 
-            return;
-        }
-
-
-        const file =
-        fileInput.files[0];
-
-        const title =
-        photoTitle.value.trim();
-
-        const description =
-        photoDescription.value.trim();
-
-
-        if (!file) {
-
-            uploadStatus.textContent =
-            "Pilih foto terlebih dahulu.";
-
-            return;
-        }
-
-
-        if (!title) {
-
-            uploadStatus.textContent =
-            "Judul foto wajib diisi.";
-
-            return;
-        }
+.logoutBtn {
+  background: #111;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 9px 12px;
+  border-radius: 9px;
+}
 
 
-        uploadStatus.textContent =
-        "Mengupload...";
+/* ADMIN */
+
+#adminPanel {
+  display: none;
+  background: #111;
+  border: 1px solid #292929;
+  padding: 15px;
+  border-radius: 17px;
+  margin-bottom: 20px;
+}
+
+.adminTitle {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+#titleInput,
+#descriptionInput {
+  width: 100%;
+  background: #050505;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 13px;
+  margin-bottom: 10px;
+  outline: none;
+  font-family: Arial, sans-serif;
+}
+
+#descriptionInput {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.fileLabel {
+  display: block;
+  text-align: center;
+  padding: 13px;
+  border: 1px dashed #444;
+  border-radius: 10px;
+  color: #aaa;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#fileInput {
+  display: none;
+}
+
+#uploadBtn {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  font-weight: bold;
+}
+
+#uploadStatus {
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+  margin-top: 9px;
+}
 
 
-        const extension =
-        file.name
-        .split(".")
-        .pop()
-        .toLowerCase();
+/* FOTO */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+}
+
+.photoItem {
+  min-width: 0;
+}
+
+.photoImageBox {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #111;
+  cursor: pointer;
+}
+
+.photoImageBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 
-        const fileName =
-        Date.now() +
-        "_" +
-        Math.random()
-        .toString(36)
-        .substring(2, 10) +
-        "." +
-        extension;
+/* JUDUL */
+
+.photoTitle {
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 9px;
+  line-height: 1.25;
+}
 
 
-        /* Upload ke Storage */
+/* KETERANGAN */
 
-        const {
-            error: uploadError
-        } =
-        await supabase
-        .storage
-        .from(BUCKET)
-        .upload(
-            fileName,
-            file,
-            {
-                cacheControl: "3600",
-                upsert: false
+.photoDescription {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  line-height: 1.45;
+}
+
+
+/* TITIK 3 */
+
+.moreBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 35px;
+  height: 35px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: white;
+  font-size: 22px;
+  z-index: 5;
+}
+
+
+/* MENU */
+
+.photoMenu {
+  position: absolute;
+  top: 48px;
+  right: 8px;
+  background: #191919;
+  border: 1px solid #333;
+  border-radius: 10px;
+  display: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.photoMenu button {
+  background: transparent;
+  color: white;
+  border: 0;
+  padding: 12px 15px;
+}
+
+
+/* KOSONG */
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 10px;
+  color: #666;
+}
+
+
+/* FOTO BESAR */
+
+#viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.97);
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+#viewer img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+#closeViewer {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 43px;
+  height: 43px;
+  border: 0;
+  border-radius: 50%;
+  background: #222;
+  color: white;
+  font-size: 27px;
+}
+
+
+/* HP */
+
+@media(max-width:430px) {
+
+  .logoText {
+    font-size: 48px;
+  }
+
+  .photoTitle {
+    font-size: 15px;
+  }
+
+  .photoDescription {
+    font-size: 11px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- LOGIN -->
+
+<div id="loginPage">
+
+  <div class="loginBox">
+
+    <h1>PRIVATE</h1>
+
+    <input
+      type="email"
+      id="emailInput"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="passwordInput"
+      placeholder="Password"
+    >
+
+    <button id="loginBtn">
+      MASUK
+    </button>
+
+    <div id="loginStatus"></div>
+
+  </div>
+
+</div>
+
+
+<!-- GALERI -->
+
+<div id="galleryPage">
+
+  <div class="logoText">
+    M&L
+  </div>
+
+  <div class="subText">
+    PRIVATE GALLERY
+  </div>
+
+
+  <div class="topBar">
+
+    <div class="galleryName">
+      Gallery
+    </div>
+
+    <button
+      class="logoutBtn"
+      id="logoutBtn">
+      Logout
+    </button>
+
+  </div>
+
+
+  <!-- ADMIN -->
+
+  <div id="adminPanel">
+
+    <div class="adminTitle">
+      Judul Foto
+    </div>
+
+    <input
+      id="titleInput"
+      type="text"
+      placeholder="Contoh: Kenangan M&L"
+    >
+
+
+    <div class="adminTitle">
+      Keterangan Foto
+    </div>
+
+    <textarea
+      id="descriptionInput"
+      placeholder="Tulis keterangan foto..."
+    ></textarea>
+
+
+    <label
+      class="fileLabel"
+      for="fileInput">
+
+      + Pilih Foto
+
+    </label>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/*"
+    >
+
+
+    <button id="uploadBtn">
+      UPLOAD FOTO
+    </button>
+
+    <div id="uploadStatus"></div>
+
+  </div>
+
+
+  <!-- GALERI FOTO -->
+
+  <div
+    id="gallery"
+    class="gallery">
+  </div>
+
+</div>
+
+
+<!-- VIEWER -->
+
+<div id="viewer">
+
+  <button id="closeViewer">
+    ×
+  </button>
+
+  <img id="viewerImage">
+
+</div>
+
+
+<script type="module">
+
+import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* SUPABASE */
+
+const SUPABASE_URL =
+"https://vngbbgmmernxgdjzyizs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_WmqF6NVq_f8IOGycOYO_CA_FaLrbXeS";
+
+const BUCKET =
+"Foto";
+
+const ADMIN_UID =
+"68fb3fcd-dcf1-4176-8340-7f6fa8f90dce";
+
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* ELEMENT */
+
+const loginPage =
+document.getElementById("loginPage");
+
+const galleryPage =
+document.getElementById("galleryPage");
+
+const adminPanel =
+document.getElementById("adminPanel");
+
+const emailInput =
+document.getElementById("emailInput");
+
+const passwordInput =
+document.getElementById("passwordInput");
+
+const loginBtn =
+document.getElementById("loginBtn");
+
+const loginStatus =
+document.getElementById("loginStatus");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const titleInput =
+document.getElementById("titleInput");
+
+const descriptionInput =
+document.getElementById("descriptionInput");
+
+const fileInput =
+document.getElementById("fileInput");
+
+const uploadBtn =
+document.getElementById("uploadBtn");
+
+const uploadStatus =
+document.getElementById("uploadStatus");
+
+const gallery =
+document.getElementById("gallery");
+
+const viewer =
+document.getElementById("viewer");
+
+const viewerImage =
+document.getElementById("viewerImage");
+
+const closeViewer =
+document.getElementById("closeViewer");
+
+
+/* CEK LOGIN */
+
+async function checkUser() {
+
+  const {
+    data
+  } =
+  await supabase.auth.getUser();
+
+
+  if (!data.user) {
+
+    loginPage.style.display =
+    "flex";
+
+    galleryPage.style.display =
+    "none";
+
+    return;
+  }
+
+
+  loginPage.style.display =
+  "none";
+
+  galleryPage.style.display =
+  "block";
+
+
+  const isAdmin =
+  data.user.id === ADMIN_UID;
+
+
+  adminPanel.style.display =
+  isAdmin
+  ? "block"
+  : "none";
+
+
+  loadPhotos(isAdmin);
+}
+
+
+/* LOGIN */
+
+loginBtn.addEventListener(
+  "click",
+  async () => {
+
+    loginStatus.textContent =
+    "Memeriksa...";
+
+
+    const {
+      error
+    } =
+    await supabase.auth
+    .signInWithPassword({
+
+      email:
+      emailInput.value.trim(),
+
+      password:
+      passwordInput.value
+
+    });
+
+
+    if (error) {
+
+      loginStatus.textContent =
+      "Email atau password salah.";
+
+      return;
+    }
+
+
+    loginStatus.textContent =
+    "";
+
+    emailInput.value = "";
+    passwordInput.value = "";
+
+    checkUser();
+
+  }
+);
+
+
+/* LOGOUT */
+
+logoutBtn.addEventListener(
+  "click",
+  async () => {
+
+    await supabase.auth.signOut();
+
+    checkUser();
+
+  }
+);
+
+
+/* LOAD DATA */
+
+async function loadPhotos(isAdmin) {
+
+  gallery.innerHTML =
+  '<div class="empty">Memuat foto...</div>';
+
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("gallery_photos")
+  .select(
+    "id,file_name,title,description,created_at"
+  )
+  .order(
+    "created_at",
+    {
+      ascending: false
+    }
+  );
+
+
+  if (error) {
+
+    console.error(error);
+
+    gallery.innerHTML =
+    '<div class="empty">Gagal mengambil data.</div>';
+
+    return;
+  }
+
+
+  gallery.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    gallery.innerHTML =
+    '<div class="empty">Belum ada foto.</div>';
+
+    return;
+  }
+
+
+  data.forEach(
+    record => {
+
+      const {
+        data: publicData
+      } =
+      supabase
+      .storage
+      .from(BUCKET)
+      .getPublicUrl(
+        record.file_name
+      );
+
+
+      const imageUrl =
+      publicData.publicUrl;
+
+
+      const item =
+      document.createElement("div");
+
+      item.className =
+      "photoItem";
+
+
+      const imageBox =
+      document.createElement("div");
+
+      imageBox.className =
+      "photoImageBox";
+
+
+      const img =
+      document.createElement("img");
+
+      img.src =
+      imageUrl;
+
+      img.alt =
+      record.title;
+
+
+      imageBox.appendChild(img);
+
+
+      /* ADMIN MENU */
+
+      if (isAdmin) {
+
+        const more =
+        document.createElement("button");
+
+        more.className =
+        "moreBtn";
+
+        more.textContent =
+        "⋮";
+
+
+        const menu =
+        document.createElement("div");
+
+        menu.className =
+        "photoMenu";
+
+
+        const deleteButton =
+        document.createElement("button");
+
+        deleteButton.textContent =
+        "Hapus";
+
+
+        deleteButton.addEventListener(
+          "click",
+          async event => {
+
+            event.stopPropagation();
+
+
+            if (
+              !confirm(
+                "Hapus foto ini?"
+              )
+            ) {
+              return;
             }
-        );
 
 
-        if (uploadError) {
-
-            console.error(uploadError);
-
-            uploadStatus.textContent =
-            "Upload foto gagal.";
-
-            return;
-        }
-
-
-        /* Simpan judul + keterangan */
-
-        const {
-            error: insertError
-        } =
-        await supabase
-        .from("gallery_photos")
-        .insert({
-
-            file_name:
-            fileName,
-
-            title:
-            title,
-
-            description:
-            description
-
-        });
-
-
-        if (insertError) {
-
-            console.error(insertError);
-
-
-            /* Hapus file jika database gagal */
-
+            const {
+              error:
+              storageError
+            } =
             await supabase
             .storage
             .from(BUCKET)
             .remove([
-                fileName
+              record.file_name
             ]);
 
 
-            uploadStatus.textContent =
-            "Foto gagal disimpan ke database.";
+            if (storageError) {
 
-            return;
+              alert(
+                "Gagal menghapus foto."
+              );
+
+              return;
+            }
+
+
+            const {
+              error:
+              databaseError
+            } =
+            await supabase
+            .from("gallery_photos")
+            .delete()
+            .eq(
+              "id",
+              record.id
+            );
+
+
+            if (databaseError) {
+
+              alert(
+                "Data foto gagal dihapus."
+              );
+
+              console.error(
+                databaseError
+              );
+
+              return;
+            }
+
+
+            loadPhotos(true);
+
+          }
+        );
+
+
+        menu.appendChild(
+          deleteButton
+        );
+
+
+        more.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+            menu.style.display =
+            menu.style.display ===
+            "block"
+            ? "none"
+            : "block";
+
+          }
+        );
+
+
+        imageBox.appendChild(
+          more
+        );
+
+        imageBox.appendChild(
+          menu
+        );
+
+      }
+
+
+      /* PERBESAR */
+
+      imageBox.addEventListener(
+        "click",
+        () => {
+
+          viewerImage.src =
+          imageUrl;
+
+          viewer.style.display =
+          "flex";
+
+          document.body.style.overflow =
+          "hidden";
+
         }
+      );
 
 
-        uploadStatus.textContent =
-        "Foto berhasil ditambahkan.";
+      /* JUDUL */
+
+      const title =
+      document.createElement("div");
+
+      title.className =
+      "photoTitle";
+
+      title.textContent =
+      record.title ||
+      "Tanpa judul";
 
 
-        photoTitle.value = "";
-        photoDescription.value = "";
-        fileInput.value = "";
+      /* KETERANGAN */
+
+      const description =
+      document.createElement("div");
+
+      description.className =
+      "photoDescription";
+
+      description.textContent =
+      record.description ||
+      "";
 
 
-        loadGallery(true);
+      item.appendChild(
+        imageBox
+      );
+
+      item.appendChild(
+        title
+      );
+
+
+      if (
+        record.description
+      ) {
+
+        item.appendChild(
+          description
+        );
+
+      }
+
+
+      gallery.appendChild(
+        item
+      );
 
     }
+  );
+
+}
+
+
+/* UPLOAD */
+
+uploadBtn.addEventListener(
+  "click",
+  async () => {
+
+    const {
+      data
+    } =
+    await supabase.auth.getUser();
+
+
+    if (
+      !data.user ||
+      data.user.id !== ADMIN_UID
+    ) {
+
+      uploadStatus.textContent =
+      "Akses ditolak.";
+
+      return;
+    }
+
+
+    const file =
+    fileInput.files[0];
+
+    const title =
+    titleInput.value.trim();
+
+    const description =
+    descriptionInput.value.trim();
+
+
+    if (!file) {
+
+      uploadStatus.textContent =
+      "Pilih foto dulu.";
+
+      return;
+    }
+
+
+    if (!title) {
+
+      uploadStatus.textContent =
+      "Judul foto wajib diisi.";
+
+      return;
+    }
+
+
+    uploadStatus.textContent =
+    "Mengupload...";
+
+
+    const extension =
+    file.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+
+    const fileName =
+    Date.now() +
+    "_" +
+    Math.random()
+    .toString(36)
+    .substring(2,8) +
+    "." +
+    extension;
+
+
+    /* UPLOAD STORAGE */
+
+    const {
+      error:
+      uploadError
+    } =
+    await supabase
+    .storage
+    .from(BUCKET)
+    .upload(
+      fileName,
+      file,
+      {
+        cacheControl:
+        "3600",
+
+        upsert:
+        false
+      }
+    );
+
+
+    if (uploadError) {
+
+      console.error(
+        uploadError
+      );
+
+      uploadStatus.textContent =
+      "Upload gagal.";
+
+      return;
+    }
+
+
+    /* SIMPAN DATABASE */
+
+    const {
+      error:
+      databaseError
+    } =
+    await supabase
+    .from("gallery_photos")
+    .insert({
+
+      file_name:
+      fileName,
+
+      title:
+      title,
+
+      description:
+      description
+
+    });
+
+
+    if (databaseError) {
+
+      console.error(
+        databaseError
+      );
+
+
+      await supabase
+      .storage
+      .from(BUCKET)
+      .remove([
+        fileName
+      ]);
+
+
+      uploadStatus.textContent =
+      "Gagal menyimpan data foto.";
+
+      return;
+    }
+
+
+    uploadStatus.textContent =
+    "Foto berhasil diupload.";
+
+
+    titleInput.value = "";
+    descriptionInput.value = "";
+    fileInput.value = "";
+
+
+    loadPhotos(true);
+
+  }
 );
 
 
-/* =========================
-   VIEWER
-========================= */
+/* FOTO BESAR */
 
-function closeImage() {
+function closeViewerBox() {
 
-    viewer.style.display =
-    "none";
+  viewer.style.display =
+  "none";
 
-    viewerImage.src =
-    "";
+  viewerImage.src =
+  "";
 
-    document.body.style.overflow =
-    "";
+  document.body.style.overflow =
+  "";
 
 }
 
 
 closeViewer.addEventListener(
-    "click",
-    closeImage
+  "click",
+  closeViewerBox
 );
 
 
 viewer.addEventListener(
-    "click",
-    (event) => {
+  "click",
+  event => {
 
-        if (
-            event.target === viewer
-        ) {
+    if (
+      event.target === viewer
+    ) {
 
-            closeImage();
-
-        }
+      closeViewerBox();
 
     }
+
+  }
 );
 
+
+/* ESC */
 
 document.addEventListener(
-    "keydown",
-    (event) => {
+  "keydown",
+  event => {
 
-        if (
-            event.key === "Escape"
-        ) {
+    if (
+      event.key === "Escape"
+    ) {
 
-            closeImage();
-
-        }
+      closeViewerBox();
 
     }
+
+  }
 );
 
 
-/* =========================
-   TUTUP MENU
-========================= */
-
-document.addEventListener(
-    "click",
-    () => {
-
-        document
-        .querySelectorAll(
-            ".photo-menu"
-        )
-        .forEach(
-            menu => {
-                menu.style.display =
-                "none";
-            }
-        );
-
-    }
-);
-
-
-/* =========================
-   AUTH
-========================= */
+/* AUTH */
 
 supabase.auth.onAuthStateChange(
-    () => {
+  () => {
 
-        checkLogin();
+    checkUser();
 
-    }
+  }
 );
 
 
-/* =========================
-   MULAI
-========================= */
+/* MULAI */
 
-checkLogin();
+checkUser();
 
 </script>
 
