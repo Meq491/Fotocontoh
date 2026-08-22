@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MEQ - Gallery</title>
+<title>Gallery</title>
 
 <style>
 * {
@@ -16,100 +15,191 @@ body {
     min-height: 100vh;
     font-family: Arial, sans-serif;
     background:
-        radial-gradient(circle at top, #292929 0%, #0b0b0b 45%, #000 100%);
+        radial-gradient(circle at top, #252525 0%, #090909 45%, #000 100%);
     color: white;
 }
 
-.container {
+/* =========================
+   LOGIN
+========================= */
+
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px 25px;
+    border-radius: 24px;
+    background: rgba(18,18,18,0.88);
+    border: 1px solid #292929;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.login-title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+    color: #ddd;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 13px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #080808;
+    color: white;
+    outline: none;
+    font-size: 15px;
+}
+
+.login-box input:focus {
+    border-color: #777;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #f2f2f2;
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#loginStatus {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin-top: 13px;
+}
+
+
+/* =========================
+   GALLERY
+========================= */
+
+#galleryPage {
+    display: none;
     width: 94%;
-    max-width: 700px;
+    max-width: 650px;
     margin: auto;
     padding: 35px 0 60px;
 }
 
-.logo {
+.ml-title {
     text-align: center;
     font-size: 58px;
     font-weight: 900;
-    letter-spacing: 9px;
-    margin-top: 5px;
-    text-shadow: 0 0 30px rgba(255,255,255,0.25);
+    letter-spacing: 8px;
+    margin-bottom: 4px;
+    text-shadow: 0 0 30px rgba(255,255,255,0.22);
 }
 
-.subtitle {
+.ml-subtitle {
     text-align: center;
-    color: #888;
-    margin-top: 8px;
-    font-size: 13px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
+    color: #777;
+    font-size: 11px;
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
 .gallery-title {
-    margin-top: 45px;
-    margin-bottom: 18px;
-    font-size: 22px;
+    font-size: 21px;
     font-weight: bold;
 }
 
-.admin {
+.logout {
+    border: 1px solid #333;
     background: #111;
-    border-radius: 16px;
+    color: #aaa;
+    padding: 9px 13px;
+    border-radius: 10px;
+}
+
+
+/* =========================
+   TAMBAH FOTO
+========================= */
+
+.upload-box {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 18px;
     padding: 15px;
     margin-bottom: 20px;
 }
 
-.admin input {
-    width: 100%;
-    padding: 12px;
+.file-label {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border: 1px dashed #444;
+    border-radius: 12px;
+    color: #999;
     margin-bottom: 10px;
-    border: 1px solid #333;
-    border-radius: 10px;
-    background: #050505;
-    color: white;
-}
-
-button {
-    border: none;
     cursor: pointer;
 }
 
-.admin button {
-    padding: 11px 16px;
-    border-radius: 10px;
+#fileInput {
+    display: none;
+}
+
+.upload-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 11px;
     background: white;
     color: black;
     font-weight: bold;
-    margin-right: 6px;
+    cursor: pointer;
 }
 
-#logoutBtn {
-    display: none;
+#uploadStatus {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    margin-top: 10px;
 }
 
-#uploadArea {
-    display: none;
-    margin-top: 12px;
-}
 
-#fileInput {
-    margin-bottom: 10px;
-}
+/* =========================
+   FOTO
+========================= */
 
 .gallery {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 11px;
 }
 
 .photo-card {
     position: relative;
-    overflow: hidden;
-    border-radius: 18px;
-    background: #151515;
     aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #111;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
 }
 
 .photo-card img {
@@ -117,51 +207,44 @@ button {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
-}
-
-.photo-card:hover img {
-    transform: scale(1.05);
 }
 
 .delete-btn {
     position: absolute;
-    right: 8px;
-    top: 8px;
-    z-index: 5;
-    width: 38px;
-    height: 38px;
+    right: 7px;
+    top: 7px;
+    width: 35px;
+    height: 35px;
+    border: none;
     border-radius: 50%;
-    background: rgba(180,0,0,0.9);
+    background: rgba(170,0,0,0.9);
     color: white;
-    font-size: 20px;
-    display: none;
-}
-
-.admin-mode .delete-btn {
-    display: block;
+    font-size: 21px;
+    z-index: 5;
+    cursor: pointer;
 }
 
 .empty {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 50px 20px;
-    background: #111;
-    border-radius: 18px;
-    color: #777;
+    padding: 45px 10px;
+    color: #666;
 }
 
-/* FOTO BESAR */
+
+/* =========================
+   FOTO BESAR
+========================= */
 
 #viewer {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.97);
+    z-index: 9999;
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    padding: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.97);
 }
 
 #viewerImage {
@@ -173,22 +256,34 @@ button {
 
 #closeViewer {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 46px;
-    height: 46px;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
     border: none;
     border-radius: 50%;
-    background: rgba(255,255,255,0.15);
+    background: #222;
     color: white;
-    font-size: 30px;
-    line-height: 46px;
-    cursor: pointer;
+    font-size: 28px;
 }
 
-@media (min-width: 600px) {
+
+/* =========================
+   HP
+========================= */
+
+@media (max-width: 430px) {
+
+    .ml-title {
+        font-size: 50px;
+    }
+
+    #galleryPage {
+        width: 92%;
+    }
+
     .gallery {
-        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
 }
 </style>
@@ -196,80 +291,140 @@ button {
 
 <body>
 
-<div class="container">
 
-    <div class="logo">MEQ</div>
+<!-- =========================
+     HALAMAN LOGIN
+========================= -->
 
-    <div class="subtitle">Gallery</div>
+<div id="loginPage">
 
-    <div class="gallery-title">
-        📸 Foto MEQ
-    </div>
+    <div class="login-box">
 
-    <!-- LOGIN ADMIN -->
-    <div class="admin">
+        <div class="login-title">
+            PRIVATE
+        </div>
 
         <input
             type="email"
             id="email"
-            placeholder="Email admin"
+            placeholder="Email"
+            autocomplete="email"
         >
 
         <input
             type="password"
             id="password"
-            placeholder="Password admin"
+            placeholder="Password"
+            autocomplete="current-password"
         >
 
-        <button id="loginBtn">
-            Login Admin
+        <button
+            class="login-btn"
+            id="loginBtn">
+            MASUK
         </button>
 
-        <button id="logoutBtn">
+        <div id="loginStatus"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HALAMAN SETELAH LOGIN
+========================= -->
+
+<div id="galleryPage">
+
+    <div class="ml-title">
+        M&L
+    </div>
+
+    <div class="ml-subtitle">
+        PRIVATE GALLERY
+    </div>
+
+
+    <div class="topbar">
+
+        <div class="gallery-title">
+            📸 Gallery
+        </div>
+
+        <button
+            class="logout"
+            id="logoutBtn">
             Logout
         </button>
 
-        <div id="uploadArea">
+    </div>
 
-            <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-            >
 
-            <br>
+    <!-- TAMBAH FOTO -->
 
-            <button id="uploadBtn">
-                Upload Foto
-            </button>
+    <div class="upload-box">
 
-        </div>
+        <label
+            class="file-label"
+            for="fileInput">
+            ＋ Tambahkan Foto
+        </label>
 
-        <div id="status"></div>
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+        >
+
+        <button
+            class="upload-btn"
+            id="uploadBtn">
+            UPLOAD FOTO
+        </button>
+
+        <div id="uploadStatus"></div>
 
     </div>
 
-    <div id="gallery" class="gallery">
+
+    <!-- GALERI -->
+
+    <div
+        id="gallery"
+        class="gallery">
+
         <div class="empty">
             Memuat foto...
         </div>
+
     </div>
 
 </div>
 
-<!-- FOTO FULLSCREEN -->
+
+<!-- =========================
+     FOTO BESAR
+========================= -->
 
 <div id="viewer">
 
-    <button id="closeViewer">×</button>
+    <button id="closeViewer">
+        ×
+    </button>
 
-    <img id="viewerImage">
+    <img
+        id="viewerImage"
+        alt="Foto">
 
 </div>
 
+
 <script type="module">
 
-import { createClient } from
+import {
+    createClient
+} from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
@@ -283,7 +438,9 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_WmqF6NVq_f8IOGycOYO_CA_FaLrbXeS";
 
-const BUCKET = "Foto";
+const BUCKET =
+"Foto";
+
 
 const supabase =
 createClient(
@@ -296,41 +453,109 @@ createClient(
    ELEMENT
 ========================= */
 
-const gallery =
-document.getElementById("gallery");
+const loginPage =
+document.getElementById(
+    "loginPage"
+);
 
-const viewer =
-document.getElementById("viewer");
-
-const viewerImage =
-document.getElementById("viewerImage");
-
-const closeViewer =
-document.getElementById("closeViewer");
+const galleryPage =
+document.getElementById(
+    "galleryPage"
+);
 
 const email =
-document.getElementById("email");
+document.getElementById(
+    "email"
+);
 
 const password =
-document.getElementById("password");
+document.getElementById(
+    "password"
+);
 
 const loginBtn =
-document.getElementById("loginBtn");
+document.getElementById(
+    "loginBtn"
+);
 
 const logoutBtn =
-document.getElementById("logoutBtn");
+document.getElementById(
+    "logoutBtn"
+);
 
-const uploadArea =
-document.getElementById("uploadArea");
+const loginStatus =
+document.getElementById(
+    "loginStatus"
+);
 
-const uploadBtn =
-document.getElementById("uploadBtn");
+const gallery =
+document.getElementById(
+    "gallery"
+);
 
 const fileInput =
-document.getElementById("fileInput");
+document.getElementById(
+    "fileInput"
+);
 
-const status =
-document.getElementById("status");
+const uploadBtn =
+document.getElementById(
+    "uploadBtn"
+);
+
+const uploadStatus =
+document.getElementById(
+    "uploadStatus"
+);
+
+const viewer =
+document.getElementById(
+    "viewer"
+);
+
+const viewerImage =
+document.getElementById(
+    "viewerImage"
+);
+
+const closeViewer =
+document.getElementById(
+    "closeViewer"
+);
+
+
+/* =========================
+   TAMPILAN LOGIN/GALERI
+========================= */
+
+async function checkLogin() {
+
+    const {
+        data
+    } =
+    await supabase.auth.getUser();
+
+
+    if (data.user) {
+
+        loginPage.style.display =
+        "none";
+
+        galleryPage.style.display =
+        "block";
+
+        loadGallery();
+
+    } else {
+
+        loginPage.style.display =
+        "flex";
+
+        galleryPage.style.display =
+        "none";
+
+    }
+}
 
 
 /* =========================
@@ -341,34 +566,42 @@ loginBtn.addEventListener(
     "click",
     async function() {
 
-        status.textContent = "Login...";
+        loginStatus.textContent =
+        "Memeriksa...";
+
 
         const {
             error
-        } = await supabase.auth.signInWithPassword({
+        } =
+        await supabase.auth
+        .signInWithPassword({
 
-            email: email.value,
+            email:
+            email.value.trim(),
 
-            password: password.value
+            password:
+            password.value
 
         });
 
+
         if (error) {
 
-            status.textContent =
-            "Login gagal: " +
-            error.message;
+            loginStatus.textContent =
+            "Login gagal.";
 
             return;
         }
 
-        status.textContent =
-        "Login berhasil.";
+
+        loginStatus.textContent =
+        "";
 
         email.value = "";
+
         password.value = "";
 
-        updateAdmin();
+        checkLogin();
 
     }
 );
@@ -384,61 +617,14 @@ logoutBtn.addEventListener(
 
         await supabase.auth.signOut();
 
-        updateAdmin();
+        checkLogin();
 
     }
 );
 
 
 /* =========================
-   CEK ADMIN
-========================= */
-
-async function updateAdmin() {
-
-    const {
-        data
-    } = await supabase.auth.getUser();
-
-    if (data.user) {
-
-        document.body.classList.add(
-            "admin-mode"
-        );
-
-        loginBtn.style.display =
-        "none";
-
-        logoutBtn.style.display =
-        "inline-block";
-
-        uploadArea.style.display =
-        "block";
-
-    } else {
-
-        document.body.classList.remove(
-            "admin-mode"
-        );
-
-        loginBtn.style.display =
-        "inline-block";
-
-        logoutBtn.style.display =
-        "none";
-
-        uploadArea.style.display =
-        "none";
-
-    }
-
-    loadGallery();
-
-}
-
-
-/* =========================
-   LOAD GALLERY
+   LOAD FOTO
 ========================= */
 
 async function loadGallery() {
@@ -446,32 +632,41 @@ async function loadGallery() {
     gallery.innerHTML =
     '<div class="empty">Memuat foto...</div>';
 
+
     const {
         data,
         error
-    } = await supabase
-        .storage
-        .from(BUCKET)
-        .list("", {
-            limit: 100,
-            offset: 0,
-            sortBy: {
-                column: "created_at",
-                order: "desc"
-            }
-        });
+    } =
+    await supabase
+    .storage
+    .from(BUCKET)
+    .list("", {
+
+        limit: 100,
+
+        offset: 0,
+
+        sortBy: {
+            column: "created_at",
+            order: "desc"
+        }
+
+    });
+
 
     if (error) {
 
         console.error(error);
 
         gallery.innerHTML =
-        '<div class="empty">Galeri belum bisa dimuat.</div>';
+        '<div class="empty">Gagal memuat foto.</div>';
 
         return;
     }
 
+
     gallery.innerHTML = "";
+
 
     if (!data || data.length === 0) {
 
@@ -482,70 +677,83 @@ async function loadGallery() {
     }
 
 
-    data.forEach(function(file) {
+    data.forEach(
+        function(file) {
 
-        if (!file.name) return;
+            if (!file.name)
+                return;
 
 
-        const {
-            data: publicData
-        } = supabase
+            const {
+                data: publicData
+            } =
+            supabase
             .storage
             .from(BUCKET)
-            .getPublicUrl(file.name);
+            .getPublicUrl(
+                file.name
+            );
 
 
-        const imageURL =
-        publicData.publicUrl;
+            const imageURL =
+            publicData.publicUrl;
 
 
-        const card =
-        document.createElement("div");
+            const card =
+            document.createElement(
+                "div"
+            );
 
-        card.className =
-        "photo-card";
-
-
-        const img =
-        document.createElement("img");
-
-        img.src =
-        imageURL;
-
-        img.alt =
-        "Foto MEQ";
-
-        img.loading =
-        "lazy";
+            card.className =
+            "photo-card";
 
 
-        const deleteBtn =
-        document.createElement("button");
+            const img =
+            document.createElement(
+                "img"
+            );
 
-        deleteBtn.className =
-        "delete-btn";
+            img.src =
+            imageURL;
 
-        deleteBtn.innerHTML =
-        "×";
-
-
-        deleteBtn.addEventListener(
-            "click",
-            async function(event) {
-
-                event.stopPropagation();
-
-                const yakin =
-                confirm(
-                    "Hapus foto ini?"
-                );
-
-                if (!yakin) return;
+            img.alt =
+            "Foto";
 
 
-                const {
-                    error
-                } = await supabase
+            /* HAPUS */
+
+            const deleteBtn =
+            document.createElement(
+                "button"
+            );
+
+            deleteBtn.className =
+            "delete-btn";
+
+            deleteBtn.innerHTML =
+            "×";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                async function(event) {
+
+                    event.stopPropagation();
+
+
+                    if (
+                        !confirm(
+                            "Hapus foto ini?"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    const {
+                        error
+                    } =
+                    await supabase
                     .storage
                     .from(BUCKET)
                     .remove([
@@ -553,48 +761,51 @@ async function loadGallery() {
                     ]);
 
 
-                if (error) {
+                    if (error) {
 
-                    alert(
-                        "Gagal menghapus: " +
-                        error.message
-                    );
+                        alert(
+                            "Gagal menghapus foto."
+                        );
 
-                    return;
+                        return;
+                    }
+
+
+                    loadGallery();
+
                 }
+            );
 
 
-                loadGallery();
+            card.appendChild(img);
 
-            }
-        );
+            card.appendChild(
+                deleteBtn
+            );
 
-
-        card.appendChild(img);
-
-        card.appendChild(deleteBtn);
-
-        gallery.appendChild(card);
+            gallery.appendChild(card);
 
 
-        card.addEventListener(
-            "click",
-            function() {
+            /* FOTO BESAR */
 
-                viewerImage.src =
-                imageURL;
+            card.addEventListener(
+                "click",
+                function() {
 
-                viewer.style.display =
-                "flex";
+                    viewerImage.src =
+                    imageURL;
 
-                document.body.style.overflow =
-                "hidden";
+                    viewer.style.display =
+                    "flex";
 
-            }
-        );
+                    document.body.style.overflow =
+                    "hidden";
 
-    });
+                }
+            );
 
+        }
+    );
 }
 
 
@@ -609,76 +820,80 @@ uploadBtn.addEventListener(
         const file =
         fileInput.files[0];
 
+
         if (!file) {
 
-            alert(
-                "Pilih foto terlebih dahulu."
-            );
+            uploadStatus.textContent =
+            "Pilih foto dulu.";
 
             return;
         }
+
+
+        uploadStatus.textContent =
+        "Mengupload...";
 
 
         const {
             data
-        } = await supabase.auth.getUser();
+        } =
+        await supabase.auth.getUser();
 
 
         if (!data.user) {
 
-            alert(
-                "Silakan login sebagai admin."
-            );
+            uploadStatus.textContent =
+            "Silakan login.";
 
             return;
         }
 
 
-        status.textContent =
-        "Mengupload...";
-
-
         const extension =
-        file.name.split(".").pop();
+        file.name
+        .split(".")
+        .pop();
 
 
         const fileName =
         Date.now() +
         "_" +
         Math.random()
-            .toString(36)
-            .substring(2, 8) +
+        .toString(36)
+        .substring(2,8) +
         "." +
         extension;
 
 
         const {
             error
-        } = await supabase
-            .storage
-            .from(BUCKET)
-            .upload(
-                fileName,
-                file,
-                {
-                    cacheControl: "3600",
-                    upsert: false
-                }
-            );
+        } =
+        await supabase
+        .storage
+        .from(BUCKET)
+        .upload(
+            fileName,
+            file,
+            {
+                cacheControl: "3600",
+                upsert: false
+            }
+        );
 
 
         if (error) {
 
-            status.textContent =
-            "Upload gagal: " +
-            error.message;
+            uploadStatus.textContent =
+            "Upload gagal.";
+
+            console.error(error);
 
             return;
         }
 
 
-        status.textContent =
-        "Foto berhasil diupload.";
+        uploadStatus.textContent =
+        "Foto berhasil ditambahkan.";
 
         fileInput.value = "";
 
@@ -689,7 +904,7 @@ uploadBtn.addEventListener(
 
 
 /* =========================
-   VIEWER
+   FOTO BESAR
 ========================= */
 
 function closeImage() {
@@ -718,7 +933,9 @@ viewer.addEventListener(
         if (
             event.target === viewer
         ) {
+
             closeImage();
+
         }
 
     }
@@ -732,7 +949,9 @@ document.addEventListener(
         if (
             event.key === "Escape"
         ) {
+
             closeImage();
+
         }
 
     }
@@ -740,21 +959,23 @@ document.addEventListener(
 
 
 /* =========================
-   SESSION
+   AUTH CHANGE
 ========================= */
 
 supabase.auth.onAuthStateChange(
     function() {
-        updateAdmin();
+
+        checkLogin();
+
     }
 );
 
 
 /* =========================
-   START
+   MULAI
 ========================= */
 
-updateAdmin();
+checkLogin();
 
 </script>
 
